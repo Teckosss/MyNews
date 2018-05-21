@@ -17,13 +17,13 @@ import com.deguffroy.adrien.mynews.R;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private Context context;
     private static final int PAGE_COUNT = 3;
+    private String[] names;
 
     //Default Constructor
-    public PageAdapter(FragmentManager mgr, Context mContext) {
+    public PageAdapter(FragmentManager mgr, String[] names) {
         super(mgr);
-        context = mContext;
+        this.names = names;
     }
 
     @Override
@@ -49,11 +49,11 @@ public class PageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0: //Page number 1
-                return  context.getResources().getString(R.string.navigation_drawer_top_stories);
+                return names[position];
             case 1: //Page number 2
-                return context.getResources().getString(R.string.navigation_drawer_most_popular);
+                return names[position];
             case 2: //Page number 3
-                return context.getResources().getString(R.string.navigation_drawer_business);
+                return names[position];
             default:
                 return null;
         }

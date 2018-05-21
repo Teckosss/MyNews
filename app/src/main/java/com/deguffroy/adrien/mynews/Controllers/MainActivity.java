@@ -9,7 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.deguffroy.adrien.mynews.Controllers.Fragments.BusinessFragment;
@@ -30,15 +32,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.activity_main_viewpager) ViewPager pager;
     @BindView(R.id.activity_main_tabs) TabLayout tabs;
 
-    //FOR FRAGMENTS
-    private Fragment fragmentTopStories;
-    private Fragment fragmentMostPopular;
-    private Fragment fragmentBusiness;
-
     //Identity each fragment with a number
     public static final int FRAGMENT_TOP_STORIES = 0;
     public static final int  FRAGMENT_MOST_POPULAR = 1;
     public static final int  FRAGMENT_BUSINESS = 2;
+
+    //FOR DATA
+    private PageAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.configureNavigationView();
 
-        this.showFragmentAtLaunch();
-
         this.configureViewPagerAndTabs();
+
+        this.showFragment(FRAGMENT_TOP_STORIES);
     }
 
     @Override
@@ -100,56 +100,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showFragment(int fragmentIdentifier){
         switch (fragmentIdentifier){
             case FRAGMENT_TOP_STORIES:
-                this.showTopStoriesFragment();
                 pager.setCurrentItem(FRAGMENT_TOP_STORIES);
                 break;
             case  FRAGMENT_MOST_POPULAR:
-                this.showMostPopularFragment();
                 pager.setCurrentItem(FRAGMENT_MOST_POPULAR);
                 break;
             case FRAGMENT_BUSINESS:
-                this.showBusinessFragment();
                 pager.setCurrentItem(FRAGMENT_BUSINESS);
                 break;
         }
     }
-
-    // Create each fragment page and show it
-
-    private void showTopStoriesFragment(){
-        if (this.fragmentTopStories == null) this.fragmentTopStories = TopStoriesFragment.newInstance();
-        this.startTransactionFragment(this.fragmentTopStories);
-    }
-
-    private void showMostPopularFragment(){
-        if (this.fragmentMostPopular== null) this.fragmentMostPopular = MostPopularFragment.newInstance();
-        this.startTransactionFragment(this.fragmentMostPopular);
-    }
-
-    private void showBusinessFragment(){
-        if (this.fragmentBusiness == null) this.fragmentBusiness = BusinessFragment.newInstance();
-        this.startTransactionFragment(this.fragmentBusiness);
-    }
-
-    // ---
-
-    // 3 - Generic method that will replace and show a fragment inside the MainActivity Frame Layout
-    private void startTransactionFragment(Fragment fragment){
-        if (!fragment.isVisible()){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_main_frame_layout, fragment).commit();
-        }
-    }
-
-    private void showFragmentAtLaunch(){
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-        if (visibleFragment == null) {
-            this.showFragment(FRAGMENT_TOP_STORIES);
-            // Mark as selected the menu item corresponding to NewsFragment
-            this.navigationView.getMenu().getItem(FRAGMENT_TOP_STORIES).setChecked(true);
-        }
-    }
-
 
     // ---------------------
     // CONFIGURATION
@@ -173,10 +133,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void configureViewPagerAndTabs(){
-        pager.setAdapter(new PageAdapter(getSupportFragmentManager(),getApplicationContext()));
+        this.viewPagerAdapter = new PageAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.namesPagesViewPager));
+        pager.setAdapter(viewPagerAdapter);
         // Glue TabLayout and ViewPager together
         tabs.setupWithViewPager(pager);
         // Design purpose. Tabs have the same width
         tabs.setTabMode(TabLayout.MODE_FIXED);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case FRAGMENT_TOP_STORIES:
+                        navigationView.setCheckedItem(R.id.activity_main_drawer_top_stories);
+                        break;
+                    case FRAGMENT_MOST_POPULAR:
+                        navigationView.setCheckedItem(R.id.activity_main_drawer_most_popular);
+                        break;
+                    case FRAGMENT_BUSINESS:
+                        navigationView.setCheckedItem(R.id.activity_main_drawer_business);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
     }
 }
