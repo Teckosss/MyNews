@@ -1,5 +1,6 @@
 package com.deguffroy.adrien.mynews.Utils;
 
+import com.deguffroy.adrien.mynews.Models.ResultTopStories;
 import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NYTimesStreams {
 
-    public static Observable<List<TopStoriesNews>> streamFetchTopStoriesNews(String section){
+    public static Observable<TopStoriesNews> streamFetchTopStoriesNews(String section){
         NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
         return nyTimesService.getTopStoriesNews(section)
                 .subscribeOn(Schedulers.io())

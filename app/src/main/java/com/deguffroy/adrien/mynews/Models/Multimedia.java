@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Adrien Deguffroy on 21/05/2018.
  */
 
-public class Multimedium {
+public class Multimedia {
 
     @SerializedName("url")
     @Expose

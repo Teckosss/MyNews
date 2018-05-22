@@ -5,8 +5,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
+import com.deguffroy.adrien.mynews.Models.ResultTopStories;
 import com.deguffroy.adrien.mynews.R;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,10 +30,15 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this,itemView);
     }
 
-    public void updateWithTopStoriesNews(TopStoriesNews topStoriesNews){
+    public void updateWithTopStoriesNews(ResultTopStories resultTopStories){
 
-        this.mTextViewSection.setText(topStoriesNews.getSection() + " > " + topStoriesNews.getSubsection() + " _ " + topStoriesNews.getMultimedia());
-        this.mTextViewDate.setText(topStoriesNews.getPublishedDate());
-        this.mTextViewTitle.setText(topStoriesNews.getTitle());
+        if (resultTopStories.getSubsection().equals("")){
+            this.mTextViewSection.setText(resultTopStories.getSection());
+        }else{
+            this.mTextViewSection.setText(resultTopStories.getSection() + " > " + resultTopStories.getSubsection());
+        }
+        Date date = new Date();
+        this.mTextViewDate.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date));
+        this.mTextViewTitle.setText(resultTopStories.getTitle());
     }
 }

@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
+import com.deguffroy.adrien.mynews.Models.ResultTopStories;
 import com.deguffroy.adrien.mynews.R;
 
 import java.util.List;
@@ -18,11 +18,11 @@ import java.util.List;
 public class TopStoriesNewsAdapter extends RecyclerView.Adapter<TopStoriesViewHolder> {
 
     // FOR DATA
-    private List<TopStoriesNews> topStoriesNews;
+    private List<ResultTopStories> mResultTopStories;
 
     // CONSTRUCTOR
-    public TopStoriesNewsAdapter(List<TopStoriesNews> topStoriesNews) {
-        this.topStoriesNews = topStoriesNews;
+    public TopStoriesNewsAdapter(List<ResultTopStories> resultTopStories) {
+        this.mResultTopStories = resultTopStories;
     }
 
     @Override
@@ -35,11 +35,11 @@ public class TopStoriesNewsAdapter extends RecyclerView.Adapter<TopStoriesViewHo
 
     @Override
     public void onBindViewHolder(TopStoriesViewHolder viewHolder, int position) {
-        viewHolder.updateWithTopStoriesNews(this.topStoriesNews.get(position));
+        viewHolder.updateWithTopStoriesNews(this.mResultTopStories.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return this.topStoriesNews.size();
+        return this.mResultTopStories.size();
     }
 }

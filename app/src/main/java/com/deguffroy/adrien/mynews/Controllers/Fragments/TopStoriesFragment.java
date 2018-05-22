@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.deguffroy.adrien.mynews.Models.ResultTopStories;
 import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
 import com.deguffroy.adrien.mynews.Views.TopStoriesNewsAdapter;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,7 @@ public class TopStoriesFragment extends Fragment {
     @BindView(R.id.fragment_top_stories_recycler_view) RecyclerView mRecyclerView;
 
     private Disposable disposable;
-    private List<TopStoriesNews> mTopStoriesNews;
+    private List<ResultTopStories> mResultTopStories;
     private TopStoriesNewsAdapter adapter;
 
 
@@ -62,8 +64,8 @@ public class TopStoriesFragment extends Fragment {
 
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
-        this.mTopStoriesNews = new ArrayList<>();
-        this.adapter = new TopStoriesNewsAdapter(this.mTopStoriesNews);
+        this.mResultTopStories = new ArrayList<>();
+        this.adapter = new TopStoriesNewsAdapter(this.mResultTopStories);
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -73,17 +75,23 @@ public class TopStoriesFragment extends Fragment {
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(new DisposableObserver<List<TopStoriesNews>>() {
+        Log.i("TAG", "executeHttpRequestWithRetrofit: ENTER");
+        this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(new DisposableObserver<TopStoriesNews>() {
             @Override
-            public void onNext(List<TopStoriesNews> news) {
-                updateUI(news);
+            public void onNext(TopStoriesNews resultTopStories) {
+                Log.i("TAG", "onNext: ENTER");
+                updateUI(resultTopStories.getResults());
             }
 
             @Override
-            public void onError(Throwable e) { }
+            public void onError(Throwable e) {
+                Log.i("TAG", "onError: " + e);
+            }
 
             @Override
-            public void onComplete() { }
+            public void onComplete() {
+                Log.i("TAG", "onComplete: ENTER");
+            }
         });
     }
 
@@ -95,8 +103,8 @@ public class TopStoriesFragment extends Fragment {
     // UPDATE UI
     // -------------------
 
-    private void updateUI(List<TopStoriesNews> news){
-        mTopStoriesNews.addAll(news);
+    private void updateUI(List<ResultTopStories> resultTopStories){
+        mResultTopStories.addAll(resultTopStories);
         adapter.notifyDataSetChanged();
     }
 
