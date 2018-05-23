@@ -3,6 +3,7 @@ package com.deguffroy.adrien.mynews.Controllers.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,12 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.deguffroy.adrien.mynews.Models.ResultTopStories;
 import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
 import com.deguffroy.adrien.mynews.R;
+import com.deguffroy.adrien.mynews.Utils.DividerItemDecoration;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
 import com.deguffroy.adrien.mynews.Views.TopStoriesNewsAdapter;
-import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,9 +67,11 @@ public class TopStoriesFragment extends Fragment {
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         this.mResultTopStories = new ArrayList<>();
-        this.adapter = new TopStoriesNewsAdapter(this.mResultTopStories);
+        this.adapter = new TopStoriesNewsAdapter(this.mResultTopStories, Glide.with(this));
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(ContextCompat.getDrawable(getContext(), R.drawable.divider));
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     // -------------------
@@ -79,18 +83,15 @@ public class TopStoriesFragment extends Fragment {
         this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(new DisposableObserver<TopStoriesNews>() {
             @Override
             public void onNext(TopStoriesNews resultTopStories) {
-                Log.i("TAG", "onNext: ENTER");
                 updateUI(resultTopStories.getResults());
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.i("TAG", "onError: " + e);
             }
 
             @Override
             public void onComplete() {
-                Log.i("TAG", "onComplete: ENTER");
             }
         });
     }

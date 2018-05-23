@@ -5,10 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.deguffroy.adrien.mynews.Models.ResultTopStories;
 import com.deguffroy.adrien.mynews.R;
 
-import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -30,15 +33,27 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this,itemView);
     }
 
-    public void updateWithTopStoriesNews(ResultTopStories resultTopStories){
+    public void updateWithTopStoriesNews(ResultTopStories resultTopStories, RequestManager glide){
 
+        glide.load(resultTopStories.getMultimedia().get(0).getUrl()).apply(RequestOptions.fitCenterTransform()).into(mImageView);
         if (resultTopStories.getSubsection().equals("")){
             this.mTextViewSection.setText(resultTopStories.getSection());
         }else{
             this.mTextViewSection.setText(resultTopStories.getSection() + " > " + resultTopStories.getSubsection());
         }
-        Date date = new Date();
-        this.mTextViewDate.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(date));
+        this.mTextViewDate.setText(formatDate(resultTopStories.getPublishedDate()));
         this.mTextViewTitle.setText(resultTopStories.getTitle());
+    }
+
+    private String formatDate(String dateString) {
+        try {
+            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ" );
+            Date d = sd.parse(dateString);
+            sd = new SimpleDateFormat("dd/MM/yy");
+            return sd.format(d);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

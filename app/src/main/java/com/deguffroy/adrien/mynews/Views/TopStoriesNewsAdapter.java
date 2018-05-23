@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.RequestManager;
 import com.deguffroy.adrien.mynews.Models.ResultTopStories;
 import com.deguffroy.adrien.mynews.R;
 
@@ -19,10 +20,12 @@ public class TopStoriesNewsAdapter extends RecyclerView.Adapter<TopStoriesViewHo
 
     // FOR DATA
     private List<ResultTopStories> mResultTopStories;
+    private RequestManager glide;
 
     // CONSTRUCTOR
-    public TopStoriesNewsAdapter(List<ResultTopStories> resultTopStories) {
+    public TopStoriesNewsAdapter(List<ResultTopStories> resultTopStories, RequestManager glide) {
         this.mResultTopStories = resultTopStories;
+        this.glide = glide;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class TopStoriesNewsAdapter extends RecyclerView.Adapter<TopStoriesViewHo
 
     @Override
     public void onBindViewHolder(TopStoriesViewHolder viewHolder, int position) {
-        viewHolder.updateWithTopStoriesNews(this.mResultTopStories.get(position));
+        viewHolder.updateWithTopStoriesNews(this.mResultTopStories.get(position), this.glide);
     }
 
     @Override

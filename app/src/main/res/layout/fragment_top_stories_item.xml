@@ -4,6 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="10dp"
+    android:layout_marginBottom="5dp"
     >
 
     <ImageView
@@ -24,7 +26,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="105dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorSection"
         android:text="SECTION"
        />
 
@@ -35,7 +40,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/colorDate"
         android:text="DATE"
         />
 
@@ -44,7 +51,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="105dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="38dp"
+        android:textSize="17sp"
+        android:textColor="@color/colorTitle"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:text="TITLE"
         />
 

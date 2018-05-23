@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (fragmentIdentifier){
             case FRAGMENT_TOP_STORIES:
                 pager.setCurrentItem(FRAGMENT_TOP_STORIES);
+                navigationView.setCheckedItem(R.id.activity_main_drawer_top_stories);
                 break;
             case  FRAGMENT_MOST_POPULAR:
                 pager.setCurrentItem(FRAGMENT_MOST_POPULAR);
