@@ -7,7 +7,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.deguffroy.adrien.mynews.Models.ResultTopStories;
+import com.deguffroy.adrien.mynews.Models.MostPopular.ResultMostPopular;
+import com.deguffroy.adrien.mynews.Models.TopStories.ResultTopStories;
 import com.deguffroy.adrien.mynews.R;
 
 import java.text.ParseException;
@@ -23,10 +24,10 @@ import butterknife.ButterKnife;
 
 public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.fragment_top_stories_image) ImageView mImageView;
-    @BindView(R.id.fragment_top_stories_section) TextView mTextViewSection;
-    @BindView(R.id.fragment_top_stories_date) TextView mTextViewDate;
-    @BindView(R.id.fragment_top_stories_title) TextView mTextViewTitle;
+    @BindView(R.id.fragment_main_item_image) ImageView mImageView;
+    @BindView(R.id.fragment_main_item_section) TextView mTextViewSection;
+    @BindView(R.id.fragment_main_item_date) TextView mTextViewDate;
+    @BindView(R.id.fragment_main_item_title) TextView mTextViewTitle;
 
     public TopStoriesViewHolder(View itemView) {
         super(itemView);
@@ -43,6 +44,14 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         }
         this.mTextViewDate.setText(formatDate(resultTopStories.getPublishedDate()));
         this.mTextViewTitle.setText(resultTopStories.getTitle());
+    }
+
+    public void updateWithMostPopularNews(ResultMostPopular result, RequestManager glide){
+
+        glide.load(result.getUrl()).apply(RequestOptions.fitCenterTransform()).into(mImageView);
+        this.mTextViewSection.setText(result.getSection());
+        this.mTextViewDate.setText(formatDate(result.getPublishedDate()));
+        this.mTextViewTitle.setText(result.getTitle());
     }
 
     private String formatDate(String dateString) {

@@ -1,11 +1,8 @@
-package com.deguffroy.adrien.mynews.Models;
+package com.deguffroy.adrien.mynews.Models.TopStories;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import javax.xml.transform.Result;
 
 /**
  * Created by Adrien Deguffroy on 21/05/2018.
@@ -31,6 +28,15 @@ public class TopStoriesNews {
     @SerializedName("results")
     @Expose
     private List<ResultTopStories> results = null;
+
+    public TopStoriesNews(String status, String copyright, String section, String lastUpdated, Integer numResults, List<ResultTopStories> results) {
+        this.status = status;
+        this.copyright = copyright;
+        this.section = section;
+        this.lastUpdated = lastUpdated;
+        this.numResults = numResults;
+        this.results = results;
+    }
 
     public String getStatus() {
         return status;

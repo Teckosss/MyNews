@@ -1,9 +1,7 @@
 package com.deguffroy.adrien.mynews.Utils;
 
-import com.deguffroy.adrien.mynews.Models.ResultTopStories;
-import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
-
-import java.util.List;
+import com.deguffroy.adrien.mynews.Models.MostPopular.MostPopularNews;
+import com.deguffroy.adrien.mynews.Models.TopStories.TopStoriesNews;
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
@@ -20,6 +18,9 @@ public interface NYTimesService {
 
     @GET("topstories/v2/{section}.json?api-key=70181eda313a4fc7bf8141b72d916516")
     Observable<TopStoriesNews> getTopStoriesNews(@Path("section") String section);
+
+    @GET("mostpopular/v2/mostviewed/all-sections/30.json?api-key=70181eda313a4fc7bf8141b72d916516")
+    Observable<MostPopularNews> getMostPopularNews();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/")

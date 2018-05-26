@@ -7,14 +7,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.deguffroy.adrien.mynews.Models.ResultTopStories;
-import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
+import com.deguffroy.adrien.mynews.Models.TopStories.ResultTopStories;
+import com.deguffroy.adrien.mynews.Models.TopStories.TopStoriesNews;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Utils.DividerItemDecoration;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
@@ -70,7 +69,7 @@ public class TopStoriesFragment extends Fragment {
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         this.mResultTopStories = new ArrayList<>();
-        this.adapter = new TopStoriesNewsAdapter(this.mResultTopStories, Glide.with(this));
+        this.adapter = new TopStoriesNewsAdapter(this.mResultTopStories, Glide.with(this),1);
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(ContextCompat.getDrawable(getContext(), R.drawable.divider));

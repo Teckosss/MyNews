@@ -1,6 +1,5 @@
-package com.deguffroy.adrien.mynews.Models;
+package com.deguffroy.adrien.mynews.Models.TopStories;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -64,6 +63,27 @@ public class ResultTopStories {
     @SerializedName("short_url")
     @Expose
     private String shortUrl;
+
+    public ResultTopStories(String section, String subsection, String title, String _abstract, String url, String byline, String itemType, String updatedDate, String createdDate, String publishedDate, String materialTypeFacet, String kicker, List<Object> desFacet, List<Object> orgFacet, List<Object> perFacet, List<String> geoFacet, List<Multimedia> multimedia, String shortUrl) {
+        this.section = section;
+        this.subsection = subsection;
+        this.title = title;
+        this._abstract = _abstract;
+        this.url = url;
+        this.byline = byline;
+        this.itemType = itemType;
+        this.updatedDate = updatedDate;
+        this.createdDate = createdDate;
+        this.publishedDate = publishedDate;
+        this.materialTypeFacet = materialTypeFacet;
+        this.kicker = kicker;
+        this.desFacet = desFacet;
+        this.orgFacet = orgFacet;
+        this.perFacet = perFacet;
+        this.geoFacet = geoFacet;
+        this.multimedia = multimedia;
+        this.shortUrl = shortUrl;
+    }
 
     public String getSection() {
         return section;

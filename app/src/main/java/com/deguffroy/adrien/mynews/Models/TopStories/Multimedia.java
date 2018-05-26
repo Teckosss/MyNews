@@ -1,4 +1,4 @@
-package com.deguffroy.adrien.mynews.Models;
+package com.deguffroy.adrien.mynews.Models.TopStories;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
