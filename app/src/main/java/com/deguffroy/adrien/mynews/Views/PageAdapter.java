@@ -1,16 +1,11 @@
 package com.deguffroy.adrien.mynews.Views;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.deguffroy.adrien.mynews.Controllers.Fragments.BusinessFragment;
 import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
-import com.deguffroy.adrien.mynews.Controllers.Fragments.MostPopularFragment;
-import com.deguffroy.adrien.mynews.Controllers.Fragments.TopStoriesFragment;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
-import com.deguffroy.adrien.mynews.R;
 
 /**
  * Created by Adrien Deguffroy on 17/05/2018.

@@ -21,9 +21,10 @@ import com.deguffroy.adrien.mynews.Models.TopStories.TopStoriesNews;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Utils.DividerItemDecoration;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
-import com.deguffroy.adrien.mynews.Views.TopStoriesNewsAdapter;
+import com.deguffroy.adrien.mynews.Views.NewsAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,7 +45,8 @@ public class MainFragment extends Fragment {
     private Disposable disposable;
     private List<ResultTopStories> mResultTopStories;
     private List<ResultMostPopular> mResultMostPopulars;
-    private TopStoriesNewsAdapter adapter;
+    private List mResults;
+    private NewsAdapter adapter;
 
     private int identifierID;
 
@@ -86,17 +88,8 @@ public class MainFragment extends Fragment {
 
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
-        if (getIdentifier() == MainActivity.FRAGMENT_TOP_STORIES){
-            this.mResultTopStories = new ArrayList<>();
-            this.adapter = new TopStoriesNewsAdapter(this.mResultTopStories, Glide.with(this), getIdentifier());
-        }
-        else if (getIdentifier() == MainActivity.FRAGMENT_MOST_POPULAR){
-            this.mResultMostPopulars = new ArrayList<>();
-            this.adapter = new TopStoriesNewsAdapter(this.mResultMostPopulars, Glide.with(this), getIdentifier());
-        }
-        else if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
-
-        }
+        this.mResults = new ArrayList<>();
+        this.adapter = new NewsAdapter(this.mResults, Glide.with(this));
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(ContextCompat.getDrawable(getContext(), R.drawable.divider));
@@ -117,44 +110,42 @@ public class MainFragment extends Fragment {
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        mSwipeRefreshLayout.setRefreshing(true);
+        //mSwipeRefreshLayout.setRefreshing(true);
         if (getIdentifier() == MainActivity.FRAGMENT_TOP_STORIES) {
-            this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(new DisposableObserver<TopStoriesNews>() {
-                @Override
-                public void onNext(TopStoriesNews resultTopStories) {
-                    updateUI(resultTopStories.getResults(),getIdentifier());
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.e("TOP STORIES", "onError: " + e );
-                }
-
-                @Override
-                public void onComplete() {
-                }
-            });
+            this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_MOST_POPULAR){
-            this.disposable = NYTimesStreams.streamFetchMostPopularNews().subscribeWith(new DisposableObserver<MostPopularNews>() {
-                @Override
-                public void onNext(MostPopularNews resultMostPopular) {
-                    updateUI(resultMostPopular.getResults(),getIdentifier());
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.e("MOST POPULAR", "onError: " + e );
-                }
-
-                @Override
-                public void onComplete() {
-                }
-            });
+            this.disposable = NYTimesStreams.streamFetchMostPopularNews().subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
 
         }
+    }
+
+    private <T> DisposableObserver<T> createObserver(){
+        return new DisposableObserver<T>() {
+            @Override
+            public void onNext(T t) {
+                if (t instanceof TopStoriesNews){
+                    Log.i("TAG", "onNext: ENTER TopStoriesNews");
+                    updateUI(((TopStoriesNews)t).getResults(),getIdentifier());
+                }
+                else if (t instanceof MostPopularNews){
+                    Log.i("TAG", "onNext: ENTER MostPopularNews");
+                    updateUI(((MostPopularNews)t).getResults(),getIdentifier());
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("TAG", "onError() called with: e = [" + e + "]");
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
     }
 
     private void disposeWhenDestroy(){
@@ -169,12 +160,13 @@ public class MainFragment extends Fragment {
         mSwipeRefreshLayout.setRefreshing(false);
         switch (identifier){
             case MainActivity.FRAGMENT_TOP_STORIES:
-                mResultTopStories.clear();
-                mResultTopStories.addAll(result);
+                mResults.clear();
+                mResults.addAll(result);
+
                 break;
             case MainActivity.FRAGMENT_MOST_POPULAR:
-                mResultMostPopulars.clear();
-                mResultMostPopulars.addAll(result);
+                mResults.clear();
+                mResults.addAll(result);
                 break;
             case MainActivity.FRAGMENT_BUSINESS:
 

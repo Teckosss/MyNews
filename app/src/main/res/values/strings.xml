@@ -6,9 +6,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string-array name="namesPagesViewPager">
-        <item name="navigation_drawer_top_stories">Top Stories</item>
-        <item name="navigation_drawer_most_popular">Most Popular</item>
-        <item name="navigation_drawer_business">Business</item>
+        <item name="navigation_drawer_top_stories">@string/navigation_drawer_top_stories</item>
+        <item name="navigation_drawer_most_popular">@string/navigation_drawer_most_popular</item>
+        <item name="navigation_drawer_business">@string/navigation_drawer_business</item>
     </string-array>
 
     <string name="navigation_drawer_top_stories">Top Stories</string>

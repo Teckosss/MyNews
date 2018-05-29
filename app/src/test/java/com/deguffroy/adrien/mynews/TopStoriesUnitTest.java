@@ -55,4 +55,5 @@ public class TopStoriesUnitTest {
         assertEquals(1, topStoriesNews.getNumResults(),0.001);
         assertEquals(result, topStoriesNews.getResults());
     }
+
 }
