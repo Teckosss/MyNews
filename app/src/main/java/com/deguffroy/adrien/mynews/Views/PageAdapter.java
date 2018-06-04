@@ -1,15 +1,11 @@
 package com.deguffroy.adrien.mynews.Views;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.deguffroy.adrien.mynews.Controllers.Fragments.BusinessFragment;
-import com.deguffroy.adrien.mynews.Controllers.Fragments.MostPopularFragment;
-import com.deguffroy.adrien.mynews.Controllers.Fragments.TopStoriesFragment;
+import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
-import com.deguffroy.adrien.mynews.R;
 
 /**
  * Created by Adrien Deguffroy on 17/05/2018.
@@ -35,11 +31,11 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case MainActivity.FRAGMENT_TOP_STORIES: //Page number 1
-                return TopStoriesFragment.newInstance();
+                return MainFragment.newInstance(MainActivity.FRAGMENT_TOP_STORIES);
             case MainActivity.FRAGMENT_MOST_POPULAR: //Page number 2
-                return MostPopularFragment.newInstance();
+                return MainFragment.newInstance(MainActivity.FRAGMENT_MOST_POPULAR);
             case MainActivity.FRAGMENT_BUSINESS: //Page number 3
-                return BusinessFragment.newInstance();
+                return MainFragment.newInstance(MainActivity.FRAGMENT_BUSINESS);
             default:
                 return null;
         }

@@ -1,9 +1,7 @@
 package com.deguffroy.adrien.mynews.Utils;
 
-import com.deguffroy.adrien.mynews.Models.ResultTopStories;
-import com.deguffroy.adrien.mynews.Models.TopStoriesNews;
+import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -16,9 +14,25 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NYTimesStreams {
 
-    public static Observable<TopStoriesNews> streamFetchTopStoriesNews(String section){
+    public static Observable<NYTimesResultAPI> streamFetchTopStoriesNews(String section){
         NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
         return nyTimesService.getTopStoriesNews(section)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<NYTimesResultAPI> streamFetchMostPopularNews(String section, String timePeriod){
+        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nyTimesService.getMostPopularNews(section, timePeriod)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<NYTimesResultAPI> streamFetchBusinessNews(){
+        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nyTimesService.getBusinessNews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

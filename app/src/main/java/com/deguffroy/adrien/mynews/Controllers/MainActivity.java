@@ -2,21 +2,16 @@ package com.deguffroy.adrien.mynews.Controllers;
 
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.deguffroy.adrien.mynews.Controllers.Fragments.BusinessFragment;
-import com.deguffroy.adrien.mynews.Controllers.Fragments.MostPopularFragment;
-import com.deguffroy.adrien.mynews.Controllers.Fragments.TopStoriesFragment;
+import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Views.PageAdapter;
 
@@ -39,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //FOR DATA
     private PageAdapter viewPagerAdapter;
+
+    private MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
