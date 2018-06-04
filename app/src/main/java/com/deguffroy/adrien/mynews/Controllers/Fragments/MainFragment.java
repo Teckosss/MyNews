@@ -14,17 +14,18 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
-import com.deguffroy.adrien.mynews.Models.MostPopular.MostPopularNews;
+import com.deguffroy.adrien.mynews.Models.Doc;
 import com.deguffroy.adrien.mynews.Models.MostPopular.ResultMostPopular;
+import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
+import com.deguffroy.adrien.mynews.Models.Result;
 import com.deguffroy.adrien.mynews.Models.TopStories.ResultTopStories;
-import com.deguffroy.adrien.mynews.Models.TopStories.TopStoriesNews;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Utils.DividerItemDecoration;
+import com.deguffroy.adrien.mynews.Utils.ItemClickSupport;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
 import com.deguffroy.adrien.mynews.Views.NewsAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,6 +68,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
         this.configureRecyclerView();
+        this.configureOnClickRecyclerView();
         this.configureSwipeRefreshLayout();
         this.executeHttpRequestWithRetrofit();
         return view;
@@ -105,20 +107,50 @@ public class MainFragment extends Fragment {
         });
     }
 
+    // -----------------
+    // ACTION
+    // -----------------
+
+    // Configure item click on RecyclerView
+    private void configureOnClickRecyclerView(){
+        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_main_item)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
+                            Doc url = adapter.getUrlFromSearch(position);
+                            openDetailFragment(url.getWebUrl());
+                        }else{
+                            Result url = adapter.getUrl(position);
+                            openDetailFragment(url.getUrl());
+                        }
+                    }
+                });
+    }
+
+    private void openDetailFragment(String url){
+        Fragment detailFragment = DetailFragment.newInstance(url);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_main_viewpager, detailFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        //mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setRefreshing(true);
         if (getIdentifier() == MainActivity.FRAGMENT_TOP_STORIES) {
             this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_MOST_POPULAR){
-            this.disposable = NYTimesStreams.streamFetchMostPopularNews().subscribeWith(createObserver());
+            this.disposable = NYTimesStreams.streamFetchMostPopularNews("all-sections", "30").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
-
+            this.disposable = NYTimesStreams.streamFetchBusinessNews().subscribeWith(createObserver());
         }
     }
 
@@ -126,19 +158,16 @@ public class MainFragment extends Fragment {
         return new DisposableObserver<T>() {
             @Override
             public void onNext(T t) {
-                if (t instanceof TopStoriesNews){
-                    Log.i("TAG", "onNext: ENTER TopStoriesNews");
-                    updateUI(((TopStoriesNews)t).getResults(),getIdentifier());
-                }
-                else if (t instanceof MostPopularNews){
-                    Log.i("TAG", "onNext: ENTER MostPopularNews");
-                    updateUI(((MostPopularNews)t).getResults(),getIdentifier());
+                if (t instanceof NYTimesResultAPI){
+                    Log.e("TAG", "onNext: ENTER OnNext : " + ((NYTimesResultAPI) t).getResults());
+                    Log.e("TAG", "onNext: ENTER OnNext : " + ((NYTimesResultAPI) t).getResponse());
+                    updateUI(((NYTimesResultAPI) t),getIdentifier());
                 }
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d("TAG", "onError() called with: e = [" + e + "]");
+                Log.e("TAG", "onError() called with: e = [" + e + "]");
             }
 
             @Override
@@ -156,20 +185,20 @@ public class MainFragment extends Fragment {
     // UPDATE UI
     // -------------------
 
-    private void updateUI(List result, int identifier){
+    private void updateUI(NYTimesResultAPI result, int identifier){
         mSwipeRefreshLayout.setRefreshing(false);
         switch (identifier){
             case MainActivity.FRAGMENT_TOP_STORIES:
                 mResults.clear();
-                mResults.addAll(result);
-
+                mResults.addAll(result.getResults());
                 break;
             case MainActivity.FRAGMENT_MOST_POPULAR:
                 mResults.clear();
-                mResults.addAll(result);
+                mResults.addAll(result.getResults());
                 break;
             case MainActivity.FRAGMENT_BUSINESS:
-
+                mResults.clear();
+                mResults.addAll(result.getResponse().getDocs());
                 break;
         }
         adapter.notifyDataSetChanged();

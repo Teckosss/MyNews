@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
+import com.deguffroy.adrien.mynews.Models.Doc;
+import com.deguffroy.adrien.mynews.Models.Response;
+import com.deguffroy.adrien.mynews.Models.Result;
 import com.deguffroy.adrien.mynews.Models.TopStories.ResultTopStories;
 import com.deguffroy.adrien.mynews.R;
 
@@ -26,7 +29,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
 
     // CONSTRUCTOR
-    public NewsAdapter(List result, RequestManager glide ) {
+    public NewsAdapter(List<Result> result, RequestManager glide ) {
         this.glide = glide;
         this.mResults = result;
     }
@@ -49,5 +52,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
         int itemCount = 0;
         if (mResults != null) itemCount = mResults.size();
         return itemCount;
+    }
+
+    public Result getUrl(int position){
+        List<Result> result = mResults;
+        return result.get(position);
+    }
+
+    public Doc getUrlFromSearch(int position){
+        List<Doc> result = mResults;
+        return result.get(position);
     }
 }

@@ -1,7 +1,7 @@
-package com.deguffroy.adrien.mynews.Models.MostPopular;
+package com.deguffroy.adrien.mynews.Models;
 
 /**
- * Created by Adrien Deguffroy on 26/05/2018.
+ * Created by Adrien Deguffroy on 31/05/2018.
  */
 
 import com.google.gson.annotations.Expose;
@@ -14,9 +14,5 @@ public class MediaMetadata {
 
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

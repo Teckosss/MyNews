@@ -3,7 +3,7 @@
     android:id="@+id/fragment_main_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.deguffroy.adrien.mynews.Controllers.Fragments.TopStoriesFragment">
+    tools:context="com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_main_recycler_view"
