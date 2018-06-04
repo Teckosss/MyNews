@@ -1,4 +1,4 @@
-package com.deguffroy.adrien.mynews.Models;
+package com.deguffroy.adrien.mynews.Models.Search;
 
 /**
  * Created by Adrien Deguffroy on 31/05/2018.
@@ -7,7 +7,7 @@ package com.deguffroy.adrien.mynews.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MediaMetadata {
+public class ResponseMultimedia {
     @SerializedName("url")
     @Expose
     private String url;

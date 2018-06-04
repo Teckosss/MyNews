@@ -4,6 +4,8 @@ package com.deguffroy.adrien.mynews.Models;
  * Created by Adrien Deguffroy on 31/05/2018.
  */
 
+import com.deguffroy.adrien.mynews.Models.News.Result;
+import com.deguffroy.adrien.mynews.Models.Search.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

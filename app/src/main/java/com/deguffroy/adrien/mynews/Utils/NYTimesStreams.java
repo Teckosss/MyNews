@@ -1,9 +1,6 @@
 package com.deguffroy.adrien.mynews.Utils;
 
-import com.deguffroy.adrien.mynews.Models.MostPopular.MostPopularNews;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
-import com.deguffroy.adrien.mynews.Models.Search.SearchNews;
-import com.deguffroy.adrien.mynews.Models.TopStories.TopStoriesNews;
 
 import java.util.concurrent.TimeUnit;
 

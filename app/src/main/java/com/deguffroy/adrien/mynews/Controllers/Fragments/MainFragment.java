@@ -14,11 +14,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
-import com.deguffroy.adrien.mynews.Models.Doc;
-import com.deguffroy.adrien.mynews.Models.MostPopular.ResultMostPopular;
+import com.deguffroy.adrien.mynews.Models.Search.Doc;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
-import com.deguffroy.adrien.mynews.Models.Result;
-import com.deguffroy.adrien.mynews.Models.TopStories.ResultTopStories;
+import com.deguffroy.adrien.mynews.Models.News.Result;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Utils.DividerItemDecoration;
 import com.deguffroy.adrien.mynews.Utils.ItemClickSupport;
@@ -44,8 +42,6 @@ public class MainFragment extends Fragment {
     private static final String IDENTIFIER = "Identifier";
 
     private Disposable disposable;
-    private List<ResultTopStories> mResultTopStories;
-    private List<ResultMostPopular> mResultMostPopulars;
     private List mResults;
     private NewsAdapter adapter;
 
@@ -159,8 +155,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onNext(T t) {
                 if (t instanceof NYTimesResultAPI){
-                    Log.e("TAG", "onNext: ENTER OnNext : " + ((NYTimesResultAPI) t).getResults());
-                    Log.e("TAG", "onNext: ENTER OnNext : " + ((NYTimesResultAPI) t).getResponse());
                     updateUI(((NYTimesResultAPI) t),getIdentifier());
                 }
             }

@@ -7,14 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
-import com.deguffroy.adrien.mynews.Controllers.MainActivity;
-import com.deguffroy.adrien.mynews.Models.Doc;
-import com.deguffroy.adrien.mynews.Models.Response;
-import com.deguffroy.adrien.mynews.Models.Result;
-import com.deguffroy.adrien.mynews.Models.TopStories.ResultTopStories;
+import com.deguffroy.adrien.mynews.Models.Search.Doc;
+import com.deguffroy.adrien.mynews.Models.News.Result;
 import com.deguffroy.adrien.mynews.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

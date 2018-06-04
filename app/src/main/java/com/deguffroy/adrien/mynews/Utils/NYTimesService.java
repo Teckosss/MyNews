@@ -2,7 +2,7 @@ package com.deguffroy.adrien.mynews.Utils;
 
 import com.deguffroy.adrien.mynews.Models.APIResponseDeserializer;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
-import com.deguffroy.adrien.mynews.Models.Result;
+import com.deguffroy.adrien.mynews.Models.News.Result;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

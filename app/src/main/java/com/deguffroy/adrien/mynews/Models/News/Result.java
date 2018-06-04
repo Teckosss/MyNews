@@ -1,4 +1,4 @@
-package com.deguffroy.adrien.mynews.Models;
+package com.deguffroy.adrien.mynews.Models.News;
 
 /**
  * Created by Adrien Deguffroy on 31/05/2018.

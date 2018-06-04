@@ -1,7 +1,7 @@
 package com.deguffroy.adrien.mynews.Models;
 
-import android.util.Log;
-
+import com.deguffroy.adrien.mynews.Models.News.Media;
+import com.deguffroy.adrien.mynews.Models.News.Result;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -11,8 +11,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Adrien Deguffroy on 01/06/2018.

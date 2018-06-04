@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.deguffroy.adrien.mynews.Models.Result;
-import com.deguffroy.adrien.mynews.Models.Doc;
+import com.deguffroy.adrien.mynews.Models.News.Result;
+import com.deguffroy.adrien.mynews.Models.Search.Doc;
 import com.deguffroy.adrien.mynews.R;
 
 import java.text.ParseException;
