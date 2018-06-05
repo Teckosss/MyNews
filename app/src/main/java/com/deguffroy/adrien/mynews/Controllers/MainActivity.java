@@ -1,5 +1,6 @@
 package com.deguffroy.adrien.mynews.Controllers;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -9,7 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
 import com.deguffroy.adrien.mynews.R;
@@ -55,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //2 - Inflate the menu and add it to the Toolbar
+        getMenuInflater().inflate(R.menu.activity_main_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         // Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -88,6 +98,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle actions on menu items
+        switch (item.getItemId()) {
+            case R.id.menu_activity_main_settings:
+                Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_activity_main_search:
+               Intent intent = new Intent(this, SearchArticlesActivity.class);
+               startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // ---------------------

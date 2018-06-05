@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/nav_drawer_top_menu"
+        >
         <item
             android:id="@+id/activity_main_drawer_top_stories"
             android:icon="@drawable/ic_dashboard_white_24dp"
@@ -18,4 +20,16 @@
             android:title="@string/navigation_drawer_business" />
     </group>
 
+    <group android:checkableBehavior="single"
+        android:id="@+id/nav_drawer_bottom_menu"
+        >
+        <item
+            android:id="@+id/activity_main_drawer_Search"
+            android:icon="@drawable/baseline_search_white_24"
+            android:title="@string/navigation_drawer_search" />
+        <item
+            android:id="@+id/activity_main_drawer_Settings"
+            android:icon="@drawable/baseline_more_vert_white_24"
+            android:title="@string/navigation_drawer_settings" />
+    </group>
 </menu>

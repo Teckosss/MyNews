@@ -1,6 +1,7 @@
 package com.deguffroy.adrien.mynews.Controllers.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.deguffroy.adrien.mynews.Controllers.DetailActivity;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
 import com.deguffroy.adrien.mynews.Models.Search.Doc;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
@@ -40,6 +42,7 @@ public class MainFragment extends Fragment {
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final String IDENTIFIER = "Identifier";
+    public static final String URL = "URL";
 
     private Disposable disposable;
     private List mResults;
@@ -125,11 +128,9 @@ public class MainFragment extends Fragment {
     }
 
     private void openDetailFragment(String url){
-        Fragment detailFragment = DetailFragment.newInstance(url);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_main_viewpager, detailFragment)
-                .addToBackStack(null)
-                .commit();
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(URL,url);
+        startActivity(intent);
     }
 
 
