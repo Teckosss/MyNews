@@ -39,6 +39,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.MainActivity" />
         </activity>
+        <activity
+            android:name=".Controllers.NotificationsActivity"
+            android:label="Notifications"
+            android:parentActivityName=".Controllers.MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.MainActivity" />
+        </activity>
+        <activity android:name=".Controllers.SearchResultActivity"
+            android:label="Search results"
+            android:parentActivityName=".Controllers.SearchArticlesActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.SearchArticlesActivity" />
+        </activity>
     </application>
 
 </manifest>

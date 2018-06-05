@@ -30,9 +30,25 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<NYTimesResultAPI> streamFetchBusinessNews(){
+    public static Observable<NYTimesResultAPI> streamFetchBusinessNews(String toSearch){
         NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getBusinessNews()
+        return nyTimesService.getBusinessNews(toSearch)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<NYTimesResultAPI> streamFetchSearchResult(String toSearch){
+        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nyTimesService.getSearchResult(toSearch)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<NYTimesResultAPI> streamFetchSearchResult(String toSearch, String beginDate, String endDate){
+        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nyTimesService.getSearchResult(toSearch, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

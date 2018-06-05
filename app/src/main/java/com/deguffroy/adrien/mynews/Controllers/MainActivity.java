@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int  FRAGMENT_MOST_POPULAR = 1;
     public static final int  FRAGMENT_BUSINESS = 2;
 
+    //Identity each activity with a number
+    public static final int ACTIVITY_SEARCH = 0;
+    public static final int ACTIVITY_NOTIFICATIONS = 1;
+
     //FOR DATA
     private PageAdapter viewPagerAdapter;
 
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //2 - Inflate the menu and add it to the Toolbar
+        // Inflate the menu and add it to the Toolbar
         getMenuInflater().inflate(R.menu.activity_main_toolbar_menu, menu);
         return true;
     }
@@ -91,6 +95,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_business:
                 this.showFragment(FRAGMENT_BUSINESS);
                 break;
+            case R.id.activity_main_drawer_search:
+                this.showActivity(ACTIVITY_SEARCH);
+                break;
+            case R.id.activity_main_drawer_settings:
+                this.showActivity(ACTIVITY_NOTIFICATIONS);
+                break;
             default:
                 break;
         }
@@ -105,15 +115,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle actions on menu items
         switch (item.getItemId()) {
             case R.id.menu_activity_main_settings:
-                Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...", Toast.LENGTH_LONG).show();
+                this.showActivity(ACTIVITY_NOTIFICATIONS);
                 return true;
             case R.id.menu_activity_main_search:
-               Intent intent = new Intent(this, SearchArticlesActivity.class);
-               startActivity(intent);
+                this.showActivity(ACTIVITY_SEARCH);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // ---------------------
+    // ACTIVITY
+    // ---------------------
+
+    private void showActivity(int activityIdentifier){
+        switch (activityIdentifier){
+            case ACTIVITY_SEARCH:
+                launchActivity(SearchArticlesActivity.class);
+                break;
+            case ACTIVITY_NOTIFICATIONS:
+                launchActivity(NotificationsActivity.class);
+                break;
+        }
+    }
+
+    private void launchActivity(Class mClass){
+        Intent intent = new Intent(this, mClass);
+        startActivity(intent);
     }
 
     // ---------------------
@@ -126,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 pager.setCurrentItem(FRAGMENT_TOP_STORIES);
                 navigationView.setCheckedItem(R.id.activity_main_drawer_top_stories);
                 break;
-            case  FRAGMENT_MOST_POPULAR:
+            case FRAGMENT_MOST_POPULAR:
                 pager.setCurrentItem(FRAGMENT_MOST_POPULAR);
                 break;
             case FRAGMENT_BUSINESS:

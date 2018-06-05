@@ -118,16 +118,16 @@ public class MainFragment extends Fragment {
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
                             Doc url = adapter.getUrlFromSearch(position);
-                            openDetailFragment(url.getWebUrl());
+                            openDetailActivity(url.getWebUrl());
                         }else{
                             Result url = adapter.getUrl(position);
-                            openDetailFragment(url.getUrl());
+                            openDetailActivity(url.getUrl());
                         }
                     }
                 });
     }
 
-    private void openDetailFragment(String url){
+    private void openDetailActivity(String url){
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(URL,url);
         startActivity(intent);
@@ -147,7 +147,7 @@ public class MainFragment extends Fragment {
             this.disposable = NYTimesStreams.streamFetchMostPopularNews("all-sections", "30").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
-            this.disposable = NYTimesStreams.streamFetchBusinessNews().subscribeWith(createObserver());
+            this.disposable = NYTimesStreams.streamFetchBusinessNews("business").subscribeWith(createObserver());
         }
     }
 

@@ -5,38 +5,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.deguffroy.adrien.mynews.Controllers.SearchArticlesActivity"
-    android:orientation="vertical">
+    tools:context="com.deguffroy.adrien.mynews.Controllers.NotificationsActivity"
+    android:orientation="vertical"
+    >
 
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <include
         layout="@layout/search_query"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <include
-        layout="@layout/search_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <include
         layout="@layout/search_checkbox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/search_button"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        />
+
+    <Switch
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_search"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhite"
-        android:layout_margin="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/notifications_text"
         />
+
 
 </LinearLayout>
