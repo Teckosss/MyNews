@@ -108,8 +108,21 @@ public class SearchResultActivity extends AppCompatActivity {
         String query = getIntent().getStringExtra(SearchArticlesActivity.QUERY);
         String beginDate = getIntent().getStringExtra(SearchArticlesActivity.BEGIN_DATE);
         String endDate = getIntent().getStringExtra(SearchArticlesActivity.END_DATE);
+        List<String> filterQuery = getIntent().getStringArrayListExtra(SearchArticlesActivity.FILTER_QUERY);
 
-        this.disposable = NYTimesStreams.streamFetchSearchResult(query,beginDate,endDate).subscribeWith(createObserver());
+        if (!(query.equals("")) && (beginDate == null) && (endDate == null) && filterQuery.isEmpty()){
+            Log.e("TAG", "QUERY NOT NULL" );
+            this.disposable = NYTimesStreams.streamFetchSearchResult(query).subscribeWith(createObserver());
+        }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate == null) && (endDate == null)){
+            Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL" );
+            this.disposable = NYTimesStreams.streamFetchSearchResultFilterQuery(query,filterQuery).subscribeWith(createObserver());
+        }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate != null) && (endDate != null)){
+            Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL // BEGIN NOT NULL // END NOT NULL" );
+            this.disposable = NYTimesStreams.streamFetchSearchResultFilterDate(query,filterQuery, beginDate, endDate).subscribeWith(createObserver());
+        }else if (!(query.equals("")) && (filterQuery.isEmpty()) && (beginDate != null) && (endDate != null)){
+            Log.e("TAG", "QUERY NOT NULL // BEGIN NOT NULL // END NOT NULL" );
+            this.disposable = NYTimesStreams.streamFetchSearchResultWithDate(query,beginDate,endDate).subscribeWith(createObserver());
+        }
     }
 
     private <T> DisposableObserver<T> createObserver(){
@@ -120,16 +133,10 @@ public class SearchResultActivity extends AppCompatActivity {
                     updateUI(((NYTimesResultAPI) t));
                 }
             }
-
             @Override
-            public void onError(Throwable e) {
-                Log.e("TAG", "onError() called with: e = [" + e + "]");
-            }
-
+            public void onError(Throwable e) {Log.e("TAG", "onError() called with: e = [" + e + "]");}
             @Override
-            public void onComplete() {
-
-            }
+            public void onComplete() {}
         };
     }
 

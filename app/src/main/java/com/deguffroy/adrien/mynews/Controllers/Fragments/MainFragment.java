@@ -144,7 +144,7 @@ public class MainFragment extends Fragment {
             this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_MOST_POPULAR){
-            this.disposable = NYTimesStreams.streamFetchMostPopularNews("all-sections", "30").subscribeWith(createObserver());
+            this.disposable = NYTimesStreams.streamFetchMostPopularNews("all-sections", "7").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
             this.disposable = NYTimesStreams.streamFetchBusinessNews("business").subscribeWith(createObserver());

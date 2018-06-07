@@ -6,6 +6,8 @@ import com.deguffroy.adrien.mynews.Models.News.Result;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -37,7 +39,13 @@ public interface NYTimesService {
     Observable<NYTimesResultAPI> getSearchResult(@Query("q") String toSearch);
 
     @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
-    Observable<NYTimesResultAPI> getSearchResult(@Query("q") String toSearch, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
+    Observable<NYTimesResultAPI> getSearchResultFilterQuery(@Query("q") String toSearch, @Query("fq") List<String> filterQuery);
+
+    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
+    Observable<NYTimesResultAPI> getSearchResultFilterDate(@Query("q") String toSearch, @Query("fq") List<String> filterQuery, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
+
+    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
+    Observable<NYTimesResultAPI> getSearchResultWithDate(@Query("q") String toSearch, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/")

@@ -8,39 +8,42 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.deguffroy.adrien.mynews.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.simple_toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.search_begin_date)
-    EditText mBeginDate;
-    @BindView(R.id.search_end_date)
-    EditText mEndDate;
-    @BindView(R.id.search_button)
-    Button mButtonSearch;
-    @BindView(R.id.search_editText)
-    EditText mSearchText;
+    @BindView(R.id.simple_toolbar) Toolbar mToolbar;
+    @BindView(R.id.search_begin_date) EditText mBeginDate;
+    @BindView(R.id.search_end_date) EditText mEndDate;
+    @BindView(R.id.search_button) Button mButtonSearch;
+    @BindView(R.id.search_editText) EditText mSearchText;
+    @BindView(R.id.checkbox_container) LinearLayout mCheckboxContainer;
 
     public static String QUERY = "QUERY";
+    public static String FILTER_QUERY = "FILTER_QUERY";
     public static String BEGIN_DATE = "BEGIN_DATE";
     public static String END_DATE = "END_DATE";
 
     private int mYear, mMonth, mDay;
+    private String categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +111,37 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
                 e.printStackTrace();
             }
             if (!(query.equals(""))){
+                //Log.e("TAG", "ArrayList " + retrieveSelectedCheckbox());
                 Intent intent = new Intent(this, SearchResultActivity.class);
                 intent.putExtra(QUERY,query);
                 intent.putExtra(BEGIN_DATE,beginDate);
                 intent.putExtra(END_DATE,endDate);
+                intent.putStringArrayListExtra(FILTER_QUERY,(ArrayList<String>)retrieveSelectedCheckbox());
                 startActivity(intent);
             }else{
                 Toast.makeText(this, "Query can't be empty", Toast.LENGTH_SHORT).show();
             }
-
         }
+    }
+
+    private List<String> retrieveSelectedCheckbox(){
+        List<String> selectedCheckboxes = new ArrayList<>();
+        for (int i = 0; i < mCheckboxContainer.getChildCount(); i++) {
+            View view = mCheckboxContainer.getChildAt(i);
+            if (view instanceof ViewGroup) {
+                ViewGroup viewGroup = ((ViewGroup)view);
+                for (int y = 0; y < viewGroup.getChildCount(); y++){
+                    View viewChild = viewGroup.getChildAt(y);
+                    if (viewChild instanceof CheckBox){
+                        CheckBox checkBox = ((CheckBox) viewChild);
+                        if (checkBox.isChecked()){
+                            selectedCheckboxes.add(checkBox.getTag().toString());
+                        }
+                    }
+                }
+            }
+        }
+        return selectedCheckboxes;
     }
 
     // -------------

@@ -6,6 +6,7 @@
     android:baselineAligned="false"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="10dp"
+    android:id="@+id/checkbox_container"
     >
 
     <LinearLayout
@@ -19,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkbox_arts"
+            android:tag="@string/checkbox_arts"
             />
 
         <CheckBox
@@ -26,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkbox_business"
+            android:tag="@string/checkbox_business"
             />
 
         <CheckBox
@@ -33,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkbox_entrepreneurs"
+            android:tag="@string/checkbox_entrepreneurs"
             />
 
     </LinearLayout>
@@ -48,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkbox_politics"
+            android:tag="@string/checkbox_politics"
             />
 
         <CheckBox
@@ -55,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkbox_sports"
+            android:tag="@string/checkbox_sports"
             />
 
         <CheckBox
@@ -62,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkbox_travel"
+            android:tag="@string/checkbox_travel"
             />
 
     </LinearLayout>

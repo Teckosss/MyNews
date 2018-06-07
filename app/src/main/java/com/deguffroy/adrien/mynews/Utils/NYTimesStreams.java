@@ -2,6 +2,7 @@ package com.deguffroy.adrien.mynews.Utils;
 
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -46,9 +47,25 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<NYTimesResultAPI> streamFetchSearchResult(String toSearch, String beginDate, String endDate){
+    public static Observable<NYTimesResultAPI> streamFetchSearchResultFilterQuery(String toSearch, List<String> filterQuery){
         NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getSearchResult(toSearch, beginDate, endDate)
+        return nyTimesService.getSearchResultFilterQuery(toSearch, filterQuery)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<NYTimesResultAPI> streamFetchSearchResultFilterDate(String toSearch, List<String> filterQuery, String beginDate, String endDate){
+        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nyTimesService.getSearchResultFilterDate(toSearch, filterQuery, beginDate, endDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<NYTimesResultAPI> streamFetchSearchResultWithDate(String toSearch, String beginDate, String endDate){
+        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nyTimesService.getSearchResultWithDate(toSearch, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
