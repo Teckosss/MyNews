@@ -42,6 +42,9 @@ public interface NYTimesService {
     Observable<NYTimesResultAPI> getSearchResultFilterQuery(@Query("q") String toSearch, @Query("fq") List<String> filterQuery);
 
     @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
+    Observable<NYTimesResultAPI> getSearchResultTodayFilterQuery(@Query("q") String toSearch, @Query("fq") List<String> filterQuery, @Query("begin_date") String beginDate);
+
+    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
     Observable<NYTimesResultAPI> getSearchResultFilterDate(@Query("q") String toSearch, @Query("fq") List<String> filterQuery, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 
     @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)

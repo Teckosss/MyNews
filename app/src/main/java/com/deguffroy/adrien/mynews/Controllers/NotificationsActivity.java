@@ -1,5 +1,6 @@
 package com.deguffroy.adrien.mynews.Controllers;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.deguffroy.adrien.mynews.Models.NotificationsPreferences;
 import com.deguffroy.adrien.mynews.R;
+import com.deguffroy.adrien.mynews.Utils.Notifications.NotificationHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,10 +41,16 @@ public class NotificationsActivity extends AppCompatActivity {
     public static final String PREF_KEY_QUERY_TERM = "PREF_KEY_QUERY_TERM";
     public static final String PREF_KEY_CATEGORY_LIST = "PREF_KEY_CATEGORY_LIST";
 
+    public static final String NOTIFICATIONS_HOUR = "19";
+    public static final String NOTIFICATIONS_MIN = "00";
+
+
     private SharedPreferences mPreferences;
     private NotificationsPreferences mNotificationsPreferences;
     private String mQueryTerm;
     private List<String> mCategoryList;
+
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,12 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
         saveNotificationsPreferences(mSearchQuery.getText().toString(), getSelectedCheckboxes(), mSwitch.isChecked());
+        if (mSwitch.isChecked()){
+            toggleNotifications(true);
+        }else{
+            toggleNotifications(false);
+        }
+        Toast.makeText(NotificationsActivity.this, "Notifications preferences saved", Toast.LENGTH_SHORT).show();
     }
 
     // -------------
@@ -117,7 +131,6 @@ public class NotificationsActivity extends AppCompatActivity {
         mPreferences.edit().putString(NOTIFICATIONS_STATE,jsonNotifPrefs).apply();
     }
 
-
     private List<String> getSelectedCheckboxes(){
         List<String> selectedCheckboxes = new ArrayList<>();
         for (int i = 0; i < mCheckboxContainer.getChildCount(); i++) {
@@ -138,8 +151,6 @@ public class NotificationsActivity extends AppCompatActivity {
         return selectedCheckboxes;
     }
 
-
-
     private void configureSwitchChangeListener(){
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -151,15 +162,28 @@ public class NotificationsActivity extends AppCompatActivity {
                             buttonView.setChecked(false);
                         }
                         else{
-                            Toast.makeText(NotificationsActivity.this, "All is ok we can save your preferences !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NotificationsActivity.this, "Notifications preferences saved", Toast.LENGTH_SHORT).show();
                             saveNotificationsPreferences(mSearchQuery.getText().toString(),selectedCheckboxes, true);
+                            toggleNotifications(true);
                         }
                     }else{
-                        Toast.makeText(NotificationsActivity.this, "Query Term can't be empty to enable notifications", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationsActivity.this, "Query term can't be empty to enable notifications", Toast.LENGTH_SHORT).show();
                         buttonView.setChecked(false);
                     }
+                }else{
+                    toggleNotifications(false);
                 }
             }
         });
+    }
+
+    private void toggleNotifications(boolean enableNotifications){
+        if (enableNotifications){
+            NotificationHelper.scheduleRepeatingRTCNotification(getBaseContext(), NOTIFICATIONS_HOUR, NOTIFICATIONS_MIN);
+            NotificationHelper.enableBootReceiver(getBaseContext());
+        }else{
+            NotificationHelper.cancelAlarmRTC();
+            NotificationHelper.disableBootReceiver(getBaseContext());
+        }
     }
 }

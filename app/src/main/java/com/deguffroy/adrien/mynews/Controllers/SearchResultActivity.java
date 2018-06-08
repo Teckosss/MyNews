@@ -116,6 +116,9 @@ public class SearchResultActivity extends AppCompatActivity {
         }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate == null) && (endDate == null)){
             Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL" );
             this.disposable = NYTimesStreams.streamFetchSearchResultFilterQuery(query,filterQuery).subscribeWith(createObserver());
+        }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate != null) && (endDate == null)){
+            Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL // BEGIN_DATE NOT NULL" );
+            this.disposable = NYTimesStreams.streamFetchSearchResultTodayFilterQuery(query,filterQuery,beginDate).subscribeWith(createObserver());
         }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate != null) && (endDate != null)){
             Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL // BEGIN NOT NULL // END NOT NULL" );
             this.disposable = NYTimesStreams.streamFetchSearchResultFilterDate(query,filterQuery, beginDate, endDate).subscribeWith(createObserver());

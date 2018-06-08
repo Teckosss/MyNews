@@ -1,6 +1,5 @@
 package com.deguffroy.adrien.mynews.Models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

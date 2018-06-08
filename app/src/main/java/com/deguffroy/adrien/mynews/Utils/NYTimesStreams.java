@@ -55,6 +55,14 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
+    public static Observable<NYTimesResultAPI> streamFetchSearchResultTodayFilterQuery(String toSearch, List<String> filterQuery, String beginDate){
+        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nyTimesService.getSearchResultTodayFilterQuery(toSearch, filterQuery, beginDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
     public static Observable<NYTimesResultAPI> streamFetchSearchResultFilterDate(String toSearch, List<String> filterQuery, String beginDate, String endDate){
         NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
         return nyTimesService.getSearchResultFilterDate(toSearch, filterQuery, beginDate, endDate)
