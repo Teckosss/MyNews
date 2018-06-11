@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.deguffroy.adrien.mynews.Controllers.NotificationsActivity;
 import com.deguffroy.adrien.mynews.Controllers.SearchResultActivity;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
 import com.deguffroy.adrien.mynews.Models.NotificationsPreferences;
@@ -59,7 +58,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void retrieveSharedPreferences(){
         mPreferences = mContext.getSharedPreferences(PREFS,MODE_PRIVATE);
         String date = mPreferences.getString(NOTIFICATIONS_DATE,"");
-        if ((date.equals("")) || (!date.equals(todayDate()))){
+        Log.e("ALARM_RECEIVER", "Date in SharedPreferences: " + date);
+        if ((date.equals("")) || (!(date.equals(todayDate())))){
             Gson gson = new Gson();
             Type type = new TypeToken<NotificationsPreferences>(){}.getType();
             String jsonState = mPreferences.getString(NOTIFICATIONS_STATE,"");
@@ -71,13 +71,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 this.executeHttpRequestWithRetrofit(queryTerm, categoryList);
             }
         }else{
-            Log.e("TAG", "retrieveSharedPreferences: Notifications already send today" );
+            Log.e("ALARM_RECEIVER", "retrieveSharedPreferences: Notification already sent today" );
         }
 
     }
 
     private void executeHttpRequestWithRetrofit(String queryTerm, List<String> categoryList){
-        this.disposable = NYTimesStreams.streamFetchSearchResultTodayFilterQuery(queryTerm, categoryList, todayDate()).subscribeWith(new DisposableObserver<NYTimesResultAPI>() {
+        this.disposable = NYTimesStreams.streamFetchSearchResultFilterDate(queryTerm, categoryList, todayDate(),null).subscribeWith(new DisposableObserver<NYTimesResultAPI>() {
             @Override
             public void onNext(NYTimesResultAPI nyTimesResultAPI) {
                 if (!(nyTimesResultAPI.getResponse().getDocs().isEmpty())){

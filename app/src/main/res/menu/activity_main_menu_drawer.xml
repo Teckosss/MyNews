@@ -21,15 +21,28 @@
     </group>
 
     <group android:checkableBehavior="single"
-        android:id="@+id/nav_drawer_bottom_menu"
+        android:id="@+id/nav_drawer_middle_menu"
         >
         <item
             android:id="@+id/activity_main_drawer_search"
             android:icon="@drawable/baseline_search_white_24"
             android:title="@string/navigation_drawer_search" />
         <item
-            android:id="@+id/activity_main_drawer_settings"
+            android:id="@+id/activity_main_drawer_notifs"
             android:icon="@drawable/baseline_notification_important_black_24"
-            android:title="@string/navigation_drawer_settings" />
+            android:title="@string/navigation_drawer_notifications" />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/nav_drawer_bottom_menu"
+        >
+        <item
+            android:id="@+id/activity_main_drawer_help"
+            android:icon="@drawable/baseline_help_black_24"
+            android:title="@string/navigation_drawer_help" />
+        <item
+            android:id="@+id/activity_main_drawer_about"
+            android:icon="@drawable/baseline_info_black_24"
+            android:title="@string/navigation_drawer_about" />
     </group>
 </menu>

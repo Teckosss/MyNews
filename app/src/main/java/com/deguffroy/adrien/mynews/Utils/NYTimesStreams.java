@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -31,49 +32,9 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<NYTimesResultAPI> streamFetchBusinessNews(String toSearch){
-        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getBusinessNews(toSearch)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    public static Observable<NYTimesResultAPI> streamFetchSearchResult(String toSearch){
-        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getSearchResult(toSearch)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    public static Observable<NYTimesResultAPI> streamFetchSearchResultFilterQuery(String toSearch, List<String> filterQuery){
-        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getSearchResultFilterQuery(toSearch, filterQuery)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    public static Observable<NYTimesResultAPI> streamFetchSearchResultTodayFilterQuery(String toSearch, List<String> filterQuery, String beginDate){
-        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getSearchResultTodayFilterQuery(toSearch, filterQuery, beginDate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    public static Observable<NYTimesResultAPI> streamFetchSearchResultFilterDate(String toSearch, List<String> filterQuery, String beginDate, String endDate){
+    public static Observable<NYTimesResultAPI> streamFetchSearchResultFilterDate(String toSearch, @Nullable List<String> filterQuery, @Nullable String beginDate, @Nullable String endDate){
         NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
         return nyTimesService.getSearchResultFilterDate(toSearch, filterQuery, beginDate, endDate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    public static Observable<NYTimesResultAPI> streamFetchSearchResultWithDate(String toSearch, String beginDate, String endDate){
-        NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getSearchResultWithDate(toSearch, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

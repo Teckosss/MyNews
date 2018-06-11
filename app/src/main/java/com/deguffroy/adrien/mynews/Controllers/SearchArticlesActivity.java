@@ -111,13 +111,17 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
                 e.printStackTrace();
             }
             if (!(query.equals(""))){
-                //Log.e("TAG", "ArrayList " + retrieveSelectedCheckbox());
-                Intent intent = new Intent(this, SearchResultActivity.class);
-                intent.putExtra(QUERY,query);
-                intent.putExtra(BEGIN_DATE,beginDate);
-                intent.putExtra(END_DATE,endDate);
-                intent.putStringArrayListExtra(FILTER_QUERY,(ArrayList<String>)retrieveSelectedCheckbox());
-                startActivity(intent);
+                if (retrieveSelectedCheckbox().isEmpty()){
+                    //Log.e("TAG", "ArrayList " + retrieveSelectedCheckbox());
+                    Intent intent = new Intent(this, SearchResultActivity.class);
+                    intent.putExtra(QUERY,query);
+                    intent.putExtra(BEGIN_DATE,beginDate);
+                    intent.putExtra(END_DATE,endDate);
+                    intent.putStringArrayListExtra(FILTER_QUERY,(ArrayList<String>)retrieveSelectedCheckbox());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "You have to select at least one category", Toast.LENGTH_SHORT).show();
+                }
             }else{
                 Toast.makeText(this, "Query can't be empty", Toast.LENGTH_SHORT).show();
             }

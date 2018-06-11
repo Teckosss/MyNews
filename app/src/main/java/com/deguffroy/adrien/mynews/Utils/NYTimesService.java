@@ -1,5 +1,7 @@
 package com.deguffroy.adrien.mynews.Utils;
 
+import android.support.annotation.Nullable;
+
 import com.deguffroy.adrien.mynews.Models.APIResponseDeserializer;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
 import com.deguffroy.adrien.mynews.Models.News.Result;
@@ -33,24 +35,10 @@ public interface NYTimesService {
     Observable<NYTimesResultAPI> getMostPopularNews(@Path("section") String section, @Path("time-period") String timePeriod);
 
     @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
-    Observable<NYTimesResultAPI> getBusinessNews(@Query("q") String toSearch);
+    Observable<NYTimesResultAPI> getSearchResultFilterDate(@Query("q") String toSearch, @Nullable @Query("fq") List<String> filterQuery, @Nullable @Query("begin_date") String beginDate, @Nullable @Query("end_date") String endDate);
 
-    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
-    Observable<NYTimesResultAPI> getSearchResult(@Query("q") String toSearch);
 
-    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
-    Observable<NYTimesResultAPI> getSearchResultFilterQuery(@Query("q") String toSearch, @Query("fq") List<String> filterQuery);
-
-    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
-    Observable<NYTimesResultAPI> getSearchResultTodayFilterQuery(@Query("q") String toSearch, @Query("fq") List<String> filterQuery, @Query("begin_date") String beginDate);
-
-    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
-    Observable<NYTimesResultAPI> getSearchResultFilterDate(@Query("q") String toSearch, @Query("fq") List<String> filterQuery, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
-
-    @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
-    Observable<NYTimesResultAPI> getSearchResultWithDate(@Query("q") String toSearch, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
-
-    public static final Retrofit retrofit = new Retrofit.Builder()
+    public static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/")
             .addConverterFactory(GsonConverterFactory.create(userDeserializer))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

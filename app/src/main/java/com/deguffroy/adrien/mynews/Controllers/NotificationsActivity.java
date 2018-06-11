@@ -41,8 +41,8 @@ public class NotificationsActivity extends AppCompatActivity {
     public static final String PREF_KEY_QUERY_TERM = "PREF_KEY_QUERY_TERM";
     public static final String PREF_KEY_CATEGORY_LIST = "PREF_KEY_CATEGORY_LIST";
 
-    public static final String NOTIFICATIONS_HOUR = "19";
-    public static final String NOTIFICATIONS_MIN = "00";
+    public static final String NOTIFICATIONS_HOUR = "21";
+    public static final String NOTIFICATIONS_MIN = "45";
 
 
     private SharedPreferences mPreferences;
@@ -94,6 +94,7 @@ public class NotificationsActivity extends AppCompatActivity {
         if (mNotificationsPreferences == null){ // Normally use for first time launch
             mQueryTerm = mPreferences.getString(PREF_KEY_QUERY_TERM, NotificationsPreferences.DEFAULT_QUERY_TERM);
             String retrieve = mPreferences.getString(PREF_KEY_CATEGORY_LIST, NotificationsPreferences.DEFAULT_CATEGORY_LIST);
+            mCategoryList = new ArrayList<>();
             mCategoryList.add(retrieve);
             saveNotificationsPreferences(mQueryTerm, mCategoryList, false);
         }else{

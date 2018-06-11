@@ -47,8 +47,12 @@ public class NotificationHelper {
         // Use this when you know what you're doing.
         //Use RTC when you don't need to wake up device, but want to deliver the notification whenever device is woke-up
         //We'll be using RTC.WAKEUP for demo purpose only
-        alarmManagerRTC.setInexactRepeating(AlarmManager.RTC,
-                calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentRTC);
+
+        // With setInexactRepeating(), you have to use one of the AlarmManager interval //
+        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        alarmManagerRTC.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentRTC);
+
+        /*alarmManagerRTC.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentRTC);*/
     }
 
     public static void cancelAlarmRTC() {

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.deguffroy.adrien.mynews.Controllers.DetailActivity;
@@ -25,6 +26,8 @@ import com.deguffroy.adrien.mynews.Utils.ItemClickSupport;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
 import com.deguffroy.adrien.mynews.Views.NewsAdapter;
 
+import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import retrofit2.HttpException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -147,7 +151,7 @@ public class MainFragment extends Fragment {
             this.disposable = NYTimesStreams.streamFetchMostPopularNews("all-sections", "7").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
-            this.disposable = NYTimesStreams.streamFetchBusinessNews("business").subscribeWith(createObserver());
+            this.disposable = NYTimesStreams.streamFetchSearchResultFilterDate("business",null,null,null).subscribeWith(createObserver());
         }
     }
 
@@ -162,7 +166,8 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TAG", "onError() called with: e = [" + e + "]");
+                mSwipeRefreshLayout.setRefreshing(false);
+                handleError(e);
             }
 
             @Override
@@ -170,6 +175,24 @@ public class MainFragment extends Fragment {
 
             }
         };
+    }
+
+    private void handleError(Throwable throwable) {
+        if (throwable instanceof HttpException) {
+            HttpException httpException = (HttpException) throwable;
+            int statusCode = httpException.code();
+            Log.e("HttpException", "Error code : " + statusCode);
+            Toast.makeText(getContext(), "HttpException, Error code : " + statusCode, Toast.LENGTH_SHORT).show();
+        } else if (throwable instanceof SocketTimeoutException) {
+            Log.e("SocketTimeoutException", "Timeout from retrofit");
+            Toast.makeText(getContext(), "Request timeout, please check your internet connection", Toast.LENGTH_SHORT).show();
+        } else if (throwable instanceof IOException) {
+            Log.e("IOException", "Error");
+            Toast.makeText(getContext(), "An error occurred, please check your internet connection", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.e("Generic handleError", "Error");
+            Toast.makeText(getContext(), "An error occurred, please try again", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void disposeWhenDestroy(){

@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_search:
                 this.showActivity(ACTIVITY_SEARCH);
                 break;
-            case R.id.activity_main_drawer_settings:
+            case R.id.activity_main_drawer_notifs:
                 this.showActivity(ACTIVITY_NOTIFICATIONS);
                 break;
             default:
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle actions on menu items
         switch (item.getItemId()) {
-            case R.id.menu_activity_main_settings:
+            case R.id.menu_activity_main_notifs:
                 this.showActivity(ACTIVITY_NOTIFICATIONS);
                 return true;
             case R.id.menu_activity_main_search:

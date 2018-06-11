@@ -22,6 +22,8 @@ import com.deguffroy.adrien.mynews.Utils.ItemClickSupport;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
 import com.deguffroy.adrien.mynews.Views.NewsAdapter;
 
+import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import retrofit2.HttpException;
 
 
 public class SearchResultActivity extends AppCompatActivity {
@@ -110,22 +113,7 @@ public class SearchResultActivity extends AppCompatActivity {
         String endDate = getIntent().getStringExtra(SearchArticlesActivity.END_DATE);
         List<String> filterQuery = getIntent().getStringArrayListExtra(SearchArticlesActivity.FILTER_QUERY);
 
-        if (!(query.equals("")) && (beginDate == null) && (endDate == null) && filterQuery.isEmpty()){
-            Log.e("TAG", "QUERY NOT NULL" );
-            this.disposable = NYTimesStreams.streamFetchSearchResult(query).subscribeWith(createObserver());
-        }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate == null) && (endDate == null)){
-            Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL" );
-            this.disposable = NYTimesStreams.streamFetchSearchResultFilterQuery(query,filterQuery).subscribeWith(createObserver());
-        }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate != null) && (endDate == null)){
-            Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL // BEGIN_DATE NOT NULL" );
-            this.disposable = NYTimesStreams.streamFetchSearchResultTodayFilterQuery(query,filterQuery,beginDate).subscribeWith(createObserver());
-        }else if (!(query.equals("")) && (!(filterQuery.isEmpty())) && (beginDate != null) && (endDate != null)){
-            Log.e("TAG", "QUERY NOT NULL // FILTERQUERY NOT NULL // BEGIN NOT NULL // END NOT NULL" );
-            this.disposable = NYTimesStreams.streamFetchSearchResultFilterDate(query,filterQuery, beginDate, endDate).subscribeWith(createObserver());
-        }else if (!(query.equals("")) && (filterQuery.isEmpty()) && (beginDate != null) && (endDate != null)){
-            Log.e("TAG", "QUERY NOT NULL // BEGIN NOT NULL // END NOT NULL" );
-            this.disposable = NYTimesStreams.streamFetchSearchResultWithDate(query,beginDate,endDate).subscribeWith(createObserver());
-        }
+        this.disposable = NYTimesStreams.streamFetchSearchResultFilterDate(query,filterQuery, beginDate, endDate).subscribeWith(createObserver());
     }
 
     private <T> DisposableObserver<T> createObserver(){
@@ -137,10 +125,28 @@ public class SearchResultActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onError(Throwable e) {Log.e("TAG", "onError() called with: e = [" + e + "]");}
+            public void onError(Throwable e) {handleError(e);}
             @Override
             public void onComplete() {}
         };
+    }
+
+    private void handleError(Throwable throwable) {
+        if (throwable instanceof HttpException) {
+            HttpException httpException = (HttpException) throwable;
+            int statusCode = httpException.code();
+            Log.e("HttpException", "Error code : " + statusCode);
+            Toast.makeText(this, "HttpException, Error code : " + statusCode, Toast.LENGTH_SHORT).show();
+        } else if (throwable instanceof SocketTimeoutException) {
+            Log.e("SocketTimeoutException", "Timeout from retrofit");
+            Toast.makeText(this, "Request timeout, please check your internet connection", Toast.LENGTH_SHORT).show();
+        } else if (throwable instanceof IOException) {
+            Log.e("IOException", "Error");
+            Toast.makeText(this, "An error occurred, please check your internet connection", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.e("Generic handleError", "Error");
+            Toast.makeText(this, "An error occurred, please try again", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void disposeWhenDestroy(){
