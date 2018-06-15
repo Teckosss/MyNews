@@ -1,8 +1,14 @@
 package com.deguffroy.adrien.mynews.Controllers;
 
+import android.Manifest;
+import android.app.Application;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -17,6 +24,9 @@ import android.widget.Toast;
 import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Views.PageAdapter;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int ACTIVITY_SEARCH = 0;
     public static final int ACTIVITY_NOTIFICATIONS = 1;
 
+    public static final String LOG_WRITE_TO_FILE_TAG = "LogWriteToFile";
+    private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
+
     //FOR DATA
     private PageAdapter viewPagerAdapter;
 
@@ -50,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        this.checkPermissions();
+
         this.configureToolBar();
 
         this.configureDrawerLayout();
@@ -59,6 +74,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureViewPagerAndTabs();
 
         this.showFragment(FRAGMENT_TOP_STORIES);
+    }
+
+    private void checkPermissions(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+        }else{
+            this.writeLogToFile();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    this.writeLogToFile();
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
     }
 
     @Override
@@ -214,5 +263,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+    }
+
+    private void writeLogToFile(){
+        if ( isExternalStorageWritable() ) {
+
+            Log.e(LOG_WRITE_TO_FILE_TAG, "IsWritable : True" );
+            File appDirectory = new File( Environment.getExternalStorageDirectory() + "/MyNews" );
+            File logDirectory = new File( appDirectory + "/log" );
+            File logFile = new File( logDirectory, "logcat" + System.currentTimeMillis() + ".txt" );
+
+            // create app folder
+            if ( !appDirectory.exists() ) {
+                Log.e(LOG_WRITE_TO_FILE_TAG, "Creating folder" );
+                appDirectory.mkdir();
+            }
+
+            // create log folder
+            if ( !logDirectory.exists() ) {
+                Log.e(LOG_WRITE_TO_FILE_TAG, "Creating log file" );
+                logDirectory.mkdir();
+            }
+
+            // clear the previous logcat and then write the new one to the file
+            try {
+                Log.e(LOG_WRITE_TO_FILE_TAG, "Writing" );
+                Process process = Runtime.getRuntime().exec("logcat -c");
+                process = Runtime.getRuntime().exec("logcat -f " + logFile);
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+
+        } else if ( isExternalStorageReadable() ) {
+            Log.e(LOG_WRITE_TO_FILE_TAG, "IsOnlyReadable : True" );
+
+        } else {
+            Log.e(LOG_WRITE_TO_FILE_TAG, "IsNotAccessible : True" );
+            // not accessible
+        }
+    }
+
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if ( Environment.MEDIA_MOUNTED.equals( state ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if ( Environment.MEDIA_MOUNTED.equals( state ) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals( state ) ) {
+            return true;
+        }
+        return false;
     }
 }

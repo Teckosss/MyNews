@@ -59,7 +59,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         mPreferences = mContext.getSharedPreferences(PREFS,MODE_PRIVATE);
         String date = mPreferences.getString(NOTIFICATIONS_DATE,"");
         Log.e("ALARM_RECEIVER", "Date in SharedPreferences: " + date);
-        if ((date.equals("")) || (!(date.equals(todayDate())))){
+        if (!(date.equals(todayDate()))){
             Gson gson = new Gson();
             Type type = new TypeToken<NotificationsPreferences>(){}.getType();
             String jsonState = mPreferences.getString(NOTIFICATIONS_STATE,"");
@@ -127,7 +127,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                         .setContentIntent(pendingIntent)
                         .setSmallIcon(R.drawable.ic_openclassrooms)
-                        .setContentTitle("Articles that may interest you!")
+                        .setContentTitle("MyNews")
+                        .setContentText("Articles that may interest you!")
                         .setAutoCancel(true);
 
         return builder;

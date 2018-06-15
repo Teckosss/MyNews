@@ -41,8 +41,8 @@ public class NotificationsActivity extends AppCompatActivity {
     public static final String PREF_KEY_QUERY_TERM = "PREF_KEY_QUERY_TERM";
     public static final String PREF_KEY_CATEGORY_LIST = "PREF_KEY_CATEGORY_LIST";
 
-    public static final String NOTIFICATIONS_HOUR = "21";
-    public static final String NOTIFICATIONS_MIN = "45";
+    public static final String NOTIFICATIONS_HOUR = "14";
+    public static final String NOTIFICATIONS_MIN = "30";
 
 
     private SharedPreferences mPreferences;
@@ -69,8 +69,10 @@ public class NotificationsActivity extends AppCompatActivity {
         saveNotificationsPreferences(mSearchQuery.getText().toString(), getSelectedCheckboxes(), mSwitch.isChecked());
         if (mSwitch.isChecked()){
             toggleNotifications(true);
+            Log.e("Notifications", "onPause: True" );
         }else{
             toggleNotifications(false);
+            Log.e("Notifications", "onPause: False" );
         }
         Toast.makeText(NotificationsActivity.this, "Notifications preferences saved", Toast.LENGTH_SHORT).show();
     }
@@ -162,11 +164,11 @@ public class NotificationsActivity extends AppCompatActivity {
                             Toast.makeText(NotificationsActivity.this, "You have to select at least one category", Toast.LENGTH_SHORT).show();
                             buttonView.setChecked(false);
                         }
-                        else{
+                        /*else{
                             Toast.makeText(NotificationsActivity.this, "Notifications preferences saved", Toast.LENGTH_SHORT).show();
                             saveNotificationsPreferences(mSearchQuery.getText().toString(),selectedCheckboxes, true);
                             toggleNotifications(true);
-                        }
+                        }*/
                     }else{
                         Toast.makeText(NotificationsActivity.this, "Query term can't be empty to enable notifications", Toast.LENGTH_SHORT).show();
                         buttonView.setChecked(false);

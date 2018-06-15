@@ -166,13 +166,12 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                mSwipeRefreshLayout.setRefreshing(false);
+                // mSwipeRefreshLayout.setRefreshing(false); // CRASH
                 handleError(e);
             }
 
             @Override
             public void onComplete() {
-
             }
         };
     }
