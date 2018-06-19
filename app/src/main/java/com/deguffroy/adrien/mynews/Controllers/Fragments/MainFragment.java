@@ -45,7 +45,7 @@ public class MainFragment extends Fragment {
     @BindView(R.id.fragment_main_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private static final String IDENTIFIER = "Identifier";
+    public static final String IDENTIFIER = "Identifier";
     public static final String URL = "URL";
 
     private Disposable disposable;
@@ -94,7 +94,7 @@ public class MainFragment extends Fragment {
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         this.mResults = new ArrayList<>();
-        this.adapter = new NewsAdapter(this.mResults, Glide.with(this));
+        this.adapter = new NewsAdapter(this.mResults);
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(ContextCompat.getDrawable(getContext(), R.drawable.divider));
@@ -166,6 +166,7 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
+                getActivity().runOnUiThread(()->{mSwipeRefreshLayout.setRefreshing(false);});
                 // mSwipeRefreshLayout.setRefreshing(false); // CRASH
                 handleError(e);
             }

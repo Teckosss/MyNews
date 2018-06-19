@@ -74,7 +74,7 @@ public class SearchResultActivity extends AppCompatActivity {
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         this.mResults = new ArrayList<>();
-        this.adapter = new NewsAdapter(this.mResults, Glide.with(this));
+        this.adapter = new NewsAdapter(this.mResults);
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(ContextCompat.getDrawable(getBaseContext(), R.drawable.divider));

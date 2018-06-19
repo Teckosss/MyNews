@@ -111,7 +111,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
                 e.printStackTrace();
             }
             if (!(query.equals(""))){
-                if (retrieveSelectedCheckbox().isEmpty()){
+                if (!(retrieveSelectedCheckbox().isEmpty())){
                     //Log.e("TAG", "ArrayList " + retrieveSelectedCheckbox());
                     Intent intent = new Intent(this, SearchResultActivity.class);
                     intent.putExtra(QUERY,query);

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.deguffroy.adrien.mynews.Models.News.Result;
@@ -39,7 +40,8 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this,itemView);
     }
 
-    public <T> void updateWithData(T result, RequestManager glide){
+    public <T> void updateWithData(T result){
+        RequestManager glide = Glide.with(itemView);
         if (result instanceof Result){
             Result results = ((Result)result);
 
