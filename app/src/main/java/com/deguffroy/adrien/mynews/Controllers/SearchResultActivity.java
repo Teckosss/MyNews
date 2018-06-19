@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
 import com.deguffroy.adrien.mynews.Models.Search.Doc;

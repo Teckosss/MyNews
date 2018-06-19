@@ -50,8 +50,6 @@ public class NotificationsActivity extends AppCompatActivity {
     private String mQueryTerm;
     private List<String> mCategoryList;
 
-    private Context mContext;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,11 +162,6 @@ public class NotificationsActivity extends AppCompatActivity {
                             Toast.makeText(NotificationsActivity.this, "You have to select at least one category", Toast.LENGTH_SHORT).show();
                             buttonView.setChecked(false);
                         }
-                        /*else{
-                            Toast.makeText(NotificationsActivity.this, "Notifications preferences saved", Toast.LENGTH_SHORT).show();
-                            saveNotificationsPreferences(mSearchQuery.getText().toString(),selectedCheckboxes, true);
-                            toggleNotifications(true);
-                        }*/
                     }else{
                         Toast.makeText(NotificationsActivity.this, "Query term can't be empty to enable notifications", Toast.LENGTH_SHORT).show();
                         buttonView.setChecked(false);

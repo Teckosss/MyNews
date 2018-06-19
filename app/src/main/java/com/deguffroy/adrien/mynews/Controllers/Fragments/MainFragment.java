@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.deguffroy.adrien.mynews.Controllers.DetailActivity;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
 import com.deguffroy.adrien.mynews.Models.Search.Doc;

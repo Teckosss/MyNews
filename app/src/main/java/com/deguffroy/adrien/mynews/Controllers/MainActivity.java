@@ -1,7 +1,6 @@
 package com.deguffroy.adrien.mynews.Controllers;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
@@ -19,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
 import com.deguffroy.adrien.mynews.R;
@@ -54,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //FOR DATA
     private PageAdapter viewPagerAdapter;
-
-    private MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,15 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     this.writeLogToFile();
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
-                return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 
