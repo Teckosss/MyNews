@@ -58,8 +58,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void retrieveSharedPreferences(){
         mPreferences = mContext.getSharedPreferences(PREFS,MODE_PRIVATE);
         String date = mPreferences.getString(NOTIFICATIONS_DATE,"");
-        Log.e("ALARM_RECEIVER", "Date in SharedPreferences: " + date);
-        if (!(date.equals(todayDate()))){
+        //Log.e("ALARM_RECEIVER", "Date in SharedPreferences: " + date);
+        //if (!(date.equals(todayDate()))){
             Gson gson = new Gson();
             Type type = new TypeToken<NotificationsPreferences>(){}.getType();
             String jsonState = mPreferences.getString(NOTIFICATIONS_STATE,"");
@@ -70,9 +70,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 mPreferences.edit().putString(NOTIFICATIONS_DATE,todayDate()).apply();
                 this.executeHttpRequestWithRetrofit(queryTerm, categoryList);
             }
-        }else{
+        /*}else{
             Log.e("ALARM_RECEIVER", "retrieveSharedPreferences: Notification already sent today" );
         }
+        */
 
     }
 

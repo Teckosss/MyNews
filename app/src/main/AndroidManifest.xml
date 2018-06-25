@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".Utils.Notifications.AlarmReceiver"/>
+        <receiver android:name=".Utils.Notifications.AlarmReceiver" android:exported="true"/>
         <receiver android:name=".Utils.Notifications.AlarmBootReceiver"
             android:enabled="false">
             <intent-filter>
