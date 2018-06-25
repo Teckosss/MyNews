@@ -12,6 +12,7 @@
     <style name="ToolBarStyle" parent="AppTheme">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
 </resources>

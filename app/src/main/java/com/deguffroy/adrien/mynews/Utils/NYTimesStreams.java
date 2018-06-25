@@ -2,10 +2,12 @@ package com.deguffroy.adrien.mynews.Utils;
 
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -30,9 +32,9 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<NYTimesResultAPI> streamFetchBusinessNews(){
+    public static Observable<NYTimesResultAPI> streamFetchSearchResultFilterDate(String toSearch, @Nullable List<String> filterQuery, @Nullable String beginDate, @Nullable String endDate){
         NYTimesService nyTimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nyTimesService.getBusinessNews()
+        return nyTimesService.getSearchResultFilterDate(toSearch, filterQuery, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

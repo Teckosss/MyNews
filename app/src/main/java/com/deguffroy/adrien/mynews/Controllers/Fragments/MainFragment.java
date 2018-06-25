@@ -1,6 +1,7 @@
 package com.deguffroy.adrien.mynews.Controllers.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -11,8 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.deguffroy.adrien.mynews.Controllers.DetailActivity;
 import com.deguffroy.adrien.mynews.Controllers.MainActivity;
 import com.deguffroy.adrien.mynews.Models.Search.Doc;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
@@ -23,6 +25,8 @@ import com.deguffroy.adrien.mynews.Utils.ItemClickSupport;
 import com.deguffroy.adrien.mynews.Utils.NYTimesStreams;
 import com.deguffroy.adrien.mynews.Views.NewsAdapter;
 
+import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import retrofit2.HttpException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +44,8 @@ public class MainFragment extends Fragment {
     @BindView(R.id.fragment_main_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private static final String IDENTIFIER = "Identifier";
+    public static final String IDENTIFIER = "Identifier";
+    public static final String URL = "URL";
 
     private Disposable disposable;
     private List mResults;
@@ -87,7 +93,7 @@ public class MainFragment extends Fragment {
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         this.mResults = new ArrayList<>();
-        this.adapter = new NewsAdapter(this.mResults, Glide.with(this));
+        this.adapter = new NewsAdapter(this.mResults);
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(ContextCompat.getDrawable(getContext(), R.drawable.divider));
@@ -115,21 +121,19 @@ public class MainFragment extends Fragment {
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
                             Doc url = adapter.getUrlFromSearch(position);
-                            openDetailFragment(url.getWebUrl());
+                            openDetailActivity(url.getWebUrl());
                         }else{
                             Result url = adapter.getUrl(position);
-                            openDetailFragment(url.getUrl());
+                            openDetailActivity(url.getUrl());
                         }
                     }
                 });
     }
 
-    private void openDetailFragment(String url){
-        Fragment detailFragment = DetailFragment.newInstance(url);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_main_viewpager, detailFragment)
-                .addToBackStack(null)
-                .commit();
+    private void openDetailActivity(String url){
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(URL,url);
+        startActivity(intent);
     }
 
 
@@ -143,10 +147,10 @@ public class MainFragment extends Fragment {
             this.disposable = NYTimesStreams.streamFetchTopStoriesNews("home").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_MOST_POPULAR){
-            this.disposable = NYTimesStreams.streamFetchMostPopularNews("all-sections", "30").subscribeWith(createObserver());
+            this.disposable = NYTimesStreams.streamFetchMostPopularNews("all-sections", "7").subscribeWith(createObserver());
         }
         else if (getIdentifier() == MainActivity.FRAGMENT_BUSINESS){
-            this.disposable = NYTimesStreams.streamFetchBusinessNews().subscribeWith(createObserver());
+            this.disposable = NYTimesStreams.streamFetchSearchResultFilterDate("business",null,null,null).subscribeWith(createObserver());
         }
     }
 
@@ -161,14 +165,33 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TAG", "onError() called with: e = [" + e + "]");
+                getActivity().runOnUiThread(()->{mSwipeRefreshLayout.setRefreshing(false);});
+                // mSwipeRefreshLayout.setRefreshing(false); // CRASH
+                handleError(e);
             }
 
             @Override
             public void onComplete() {
-
             }
         };
+    }
+
+    private void handleError(Throwable throwable) {
+        if (throwable instanceof HttpException) {
+            HttpException httpException = (HttpException) throwable;
+            int statusCode = httpException.code();
+            Log.e("HttpException", "Error code : " + statusCode);
+            Toast.makeText(getContext(), "HttpException, Error code : " + statusCode, Toast.LENGTH_SHORT).show();
+        } else if (throwable instanceof SocketTimeoutException) {
+            Log.e("SocketTimeoutException", "Timeout from retrofit");
+            Toast.makeText(getContext(), "Request timeout, please check your internet connection", Toast.LENGTH_SHORT).show();
+        } else if (throwable instanceof IOException) {
+            Log.e("IOException", "Error");
+            Toast.makeText(getContext(), "An error occurred, please check your internet connection", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.e("Generic handleError", "Error");
+            Toast.makeText(getContext(), "An error occurred, please try again", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void disposeWhenDestroy(){

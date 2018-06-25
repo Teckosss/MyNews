@@ -20,13 +20,11 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
     // FOR DATA
-    private RequestManager glide;
     private List mResults;
 
 
     // CONSTRUCTOR
-    public NewsAdapter(List<Result> result, RequestManager glide ) {
-        this.glide = glide;
+    public NewsAdapter(List<Result> result) {
         this.mResults = result;
     }
 
@@ -40,7 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
     @Override
     public void onBindViewHolder(NewsViewHolder viewHolder, int position) {
-      viewHolder.updateWithData(this.mResults.get(position), this.glide);
+      viewHolder.updateWithData(this.mResults.get(position));
     }
 
     @Override
