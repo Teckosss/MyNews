@@ -19,14 +19,11 @@ before_install:
 
 before_script:
   - chmod +x gradlew
-  - android list targets
+  - ./gradlew build jacocoTestReport assembleAndroidTest
   - echo no | android create avd --force -n test -t android-$EMULATOR_API_LEVEL --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - emulator -avd test -no-window &
   - android-wait-for-emulator
   - ./gradlew connectedCheck
-
-script:
-  - ./gradlew build jacocoTestReport assembleAndroidTest
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
