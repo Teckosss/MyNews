@@ -50,7 +50,7 @@ public class NotificationHelper {
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval //
         // constants--in this case, AlarmManager.INTERVAL_DAY.
-        alarmManagerRTC.setRepeating(AlarmManager.RTC_WAKEUP, 0, AlarmManager.INTERVAL_HOUR, alarmIntentRTC);
+        alarmManagerRTC.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 5, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntentRTC);
 
         /*alarmManagerRTC.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentRTC);*/
     }

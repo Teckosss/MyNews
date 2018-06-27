@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        this.checkPermissions();
+        //this.checkPermissions();
 
         this.configureToolBar();
 

@@ -37,8 +37,6 @@ public interface NYTimesService {
     @GET("search/v2/articlesearch.json?sort=newest&" + API_KEY)
     Observable<NYTimesResultAPI> getSearchResultFilterDate(@Query("q") String toSearch, @Nullable @Query("fq") List<String> filterQuery, @Nullable @Query("begin_date") String beginDate, @Nullable @Query("end_date") String endDate);
 
-
-
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/")
             .addConverterFactory(GsonConverterFactory.create(userDeserializer))
