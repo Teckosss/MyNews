@@ -12,6 +12,10 @@ public class ResponseMultimedia {
     @Expose
     private String url;
 
+    public ResponseMultimedia(String url) {
+        this.url = url;
+    }
+
     public String getUrl() {
         return url;
     }

@@ -35,10 +35,6 @@ public class Result {
 
     private String urlImageMedia = null;
 
-    public Result(){
-
-    }
-
     public Result(String section, String subsection, String title, String url, String publishedDate, String urlImageMedia) {
         this.section = section;
         this.subsection = subsection;

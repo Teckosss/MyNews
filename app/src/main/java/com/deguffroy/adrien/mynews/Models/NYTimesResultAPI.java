@@ -28,4 +28,5 @@ public class NYTimesResultAPI {
     public Response getResponse() {
         return response;
     }
+
 }

@@ -29,6 +29,14 @@ public class Doc {
     @Expose
     private final List<ResponseMultimedia> multimedia = null;
 
+    public Doc(String webUrl, Headline headline, String pubDate, String sectionName, String subsectionName) {
+        this.webUrl = webUrl;
+        this.headline = headline;
+        this.pubDate = pubDate;
+        this.sectionName = sectionName;
+        this.subsectionName = subsectionName;
+    }
+
     public String getWebUrl() {
         return webUrl;
     }
