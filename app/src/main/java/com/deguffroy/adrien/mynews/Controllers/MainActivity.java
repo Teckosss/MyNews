@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Identity each activity with a number
     public static final int ACTIVITY_SEARCH = 0;
     public static final int ACTIVITY_NOTIFICATIONS = 1;
+    public static final int ACTIVITY_HELP = 2;
+    public static final int ACTIVITY_ABOUT = 3;
 
     public static final String LOG_WRITE_TO_FILE_TAG = "LogWriteToFile";
     private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //this.checkPermissions();
+        //this.checkPermissions(); // USE FOR DEBUG
 
         this.configureToolBar();
 
@@ -139,6 +141,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_notifs:
                 this.showActivity(ACTIVITY_NOTIFICATIONS);
                 break;
+            case R.id.activity_main_drawer_help:
+                this.showActivity(ACTIVITY_HELP);
+                break;
+            case R.id.activity_main_drawer_about:
+                this.showActivity(ACTIVITY_ABOUT);
+                break;
             default:
                 break;
         }
@@ -154,6 +162,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.menu_activity_main_notifs:
                 this.showActivity(ACTIVITY_NOTIFICATIONS);
+                return true;
+            case R.id.menu_activity_main_help:
+                this.showActivity(ACTIVITY_HELP);
+                return true;
+            case R.id.menu_activity_main_about:
+                this.showActivity(ACTIVITY_ABOUT);
                 return true;
             case R.id.menu_activity_main_search:
                 this.showActivity(ACTIVITY_SEARCH);
@@ -174,6 +188,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case ACTIVITY_NOTIFICATIONS:
                 launchActivity(NotificationsActivity.class);
+                break;
+            case ACTIVITY_HELP:
+                launchActivity(HelpActivity.class);
+                break;
+            case ACTIVITY_ABOUT:
+                launchActivity(AboutActivity.class);
                 break;
         }
     }

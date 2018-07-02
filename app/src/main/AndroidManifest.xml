@@ -3,7 +3,7 @@
     package="com.deguffroy.adrien.mynews">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,12 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <receiver android:name=".Utils.Notifications.AlarmReceiver" android:exported="true"/>
-        <receiver android:name=".Utils.Notifications.AlarmBootReceiver"
+        <receiver
+            android:name=".Utils.Notifications.AlarmReceiver"
+            android:exported="true" />
+        <receiver
+            android:name=".Utils.Notifications.AlarmBootReceiver"
             android:enabled="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -61,7 +63,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.MainActivity" />
         </activity>
-        <activity android:name=".Controllers.SearchResultActivity"
+        <activity
+            android:name=".Controllers.SearchResultActivity"
             android:label="Search results"
             android:parentActivityName=".Controllers.SearchArticlesActivity">
 
@@ -69,6 +72,26 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.SearchArticlesActivity" />
+        </activity>
+        <activity
+            android:name=".Controllers.HelpActivity"
+            android:label="Help"
+            android:parentActivityName=".Controllers.MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Controllers.AboutActivity"
+            android:label="About"
+            android:parentActivityName=".Controllers.MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.MainActivity" />
         </activity>
     </application>
 

@@ -32,6 +32,19 @@
     <string name="checkbox_travel">Travel</string>
     <string name="button_search">Search</string>
 
+    <!-- Help activity text -->
+    <string name="help_text_view">MyNews is rather simple to use so there is no particular help on its use. However, if you encounter a problem or a bug do not hesitate to tell me by using the form below.</string>
+    <string name="help_label_subject">Subject</string>
+    <string name="help_edit_text_hint">Describe your problem here</string>
+    <string name="help_text_button_submit">Submit</string>
+
+    <!-- About activity text -->
+    <string name="about_text_view_developed_by">MyNews was developed by Adrien Deguffroy.</string>
+    <string name="about_link_github">https://github.com/Teckosss</string>
+    <string name="about_purpose">The main purpose is to make an application recovering data via an API and secure it through unit and interface testing.</string>
+    <string name="about_project_from">This app is a project of the OpenClassRooms Android Application Developer Course.</string>
+    <string name="about_link_path">https://openclassrooms.com/paths/89-developpeur-dapplication-android</string>
+
     <!-- Notifications text -->
     <string name="notifications_text">Enable notifications (once per day)</string>
 

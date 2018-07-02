@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.deguffroy.adrien.mynews.Controllers.AboutActivity"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_text_view_developed_by"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="@string/about_link_github"
+            android:layout_marginBottom="15dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_purpose"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_project_from"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="@string/about_link_path"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>
