@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.RequestManager;
 import com.deguffroy.adrien.mynews.Models.Search.Doc;
 import com.deguffroy.adrien.mynews.Models.News.Result;
 import com.deguffroy.adrien.mynews.R;

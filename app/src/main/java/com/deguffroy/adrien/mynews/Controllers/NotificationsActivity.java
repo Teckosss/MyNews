@@ -1,6 +1,5 @@
 package com.deguffroy.adrien.mynews.Controllers;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -100,7 +99,6 @@ public class NotificationsActivity extends AppCompatActivity {
         }else{
             mQueryTerm = mNotificationsPreferences.getQueryTerm();
             List<String> list = mNotificationsPreferences.getCategoryList();
-            //Log.e("TAG", "retrievePreferences: LIST : " + list );
             if (!(mQueryTerm.equals("")) && (!((list.isEmpty())))){
                 mSearchQuery.setText(mQueryTerm);
                 for (int x = 0; x < list.size(); x++){

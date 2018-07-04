@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.deguffroy.adrien.mynews.Controllers.Fragments.MainFragment;
 import com.deguffroy.adrien.mynews.R;
 import com.deguffroy.adrien.mynews.Views.PageAdapter;
 
@@ -94,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     this.writeLogToFile();
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                    // permission was granted
                 }
             }
         }
@@ -302,13 +300,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } catch ( IOException e ) {
                 e.printStackTrace();
             }
-
-        } else if ( isExternalStorageReadable() ) {
-            Log.e(LOG_WRITE_TO_FILE_TAG, "IsOnlyReadable : True" );
-
-        } else {
-            Log.e(LOG_WRITE_TO_FILE_TAG, "IsNotAccessible : True" );
-            // not accessible
         }
     }
 
@@ -316,16 +307,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if ( Environment.MEDIA_MOUNTED.equals( state ) ) {
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if ( Environment.MEDIA_MOUNTED.equals( state ) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals( state ) ) {
             return true;
         }
         return false;

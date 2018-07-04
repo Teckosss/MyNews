@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.deguffroy.adrien.mynews.Controllers.SearchResultActivity;
 import com.deguffroy.adrien.mynews.Models.NYTimesResultAPI;
@@ -40,40 +39,29 @@ import static com.deguffroy.adrien.mynews.Controllers.SearchArticlesActivity.QUE
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    public static final String NOTIFICATIONS_DATE = "NOTIFICATIONS_DATE";
+    public static final String NOTIFICATION_TITLE = "MyNews";
+    public static final String NOTIFICATION_MESSAGE = "Articles that may interest you!";
 
     private Disposable disposable;
-    private SharedPreferences mPreferences;
-    private NotificationsPreferences mNotificationsPreferences;
     private Context mContext;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("ALARM_RECEIVER", "onReceive: Waiting for action" );
-
         this.mContext = context;
         this.retrieveSharedPreferences();
     }
 
     private void retrieveSharedPreferences(){
-        mPreferences = mContext.getSharedPreferences(PREFS,MODE_PRIVATE);
-        String date = mPreferences.getString(NOTIFICATIONS_DATE,"");
-        //Log.e("ALARM_RECEIVER", "Date in SharedPreferences: " + date);
-        //if (!(date.equals(todayDate()))){
-            Gson gson = new Gson();
-            Type type = new TypeToken<NotificationsPreferences>(){}.getType();
-            String jsonState = mPreferences.getString(NOTIFICATIONS_STATE,"");
-            mNotificationsPreferences = gson.fromJson(jsonState,type);
-            if (mNotificationsPreferences != null){
-                String queryTerm = mNotificationsPreferences.getQueryTerm();
-                List<String> categoryList = mNotificationsPreferences.getCategoryList();
-                mPreferences.edit().putString(NOTIFICATIONS_DATE,todayDate()).apply();
-                this.executeHttpRequestWithRetrofit(queryTerm, categoryList);
-            }
-        /*}else{
-            Log.e("ALARM_RECEIVER", "retrieveSharedPreferences: Notification already sent today" );
+        SharedPreferences preferences = mContext.getSharedPreferences(PREFS, MODE_PRIVATE);
+        Gson gson = new Gson();
+        Type type = new TypeToken<NotificationsPreferences>(){}.getType();
+        String jsonState = preferences.getString(NOTIFICATIONS_STATE,"");
+        NotificationsPreferences notificationsPreferences = gson.fromJson(jsonState, type);
+        if (notificationsPreferences != null){
+            String queryTerm = notificationsPreferences.getQueryTerm();
+            List<String> categoryList = notificationsPreferences.getCategoryList();
+            this.executeHttpRequestWithRetrofit(queryTerm, categoryList);
         }
-        */
 
     }
 
@@ -82,29 +70,20 @@ public class AlarmReceiver extends BroadcastReceiver {
             @Override
             public void onNext(NYTimesResultAPI nyTimesResultAPI) {
                 if (!(nyTimesResultAPI.getResponse().getDocs().isEmpty())){
-                    Log.e("ALARM_RECEIVER", "onNext: Result found !" );
                     sendNotifications(queryTerm, categoryList);
-                }else{
-                    Log.e("ALARM_RECEIVER", "onNext: No result found !" );
                 }
             }
 
             @Override
-            public void onError(Throwable e) {
-                Log.e("ALARM_RECEIVER", "onError() called with: e = [" + e + "]");
-            }
+            public void onError(Throwable e) { }
 
             @Override
-            public void onComplete() {
-
-            }
+            public void onComplete() {}
         });
     }
 
     private void sendNotifications(String queryTerm, List<String> categoryList){
-        Log.e("ALARM_RECEIVER", "Sending notification !" );
         //Intent to invoke app when click on notification.
-        //In this sample, we want to start/launch this sample app when user clicks on notification
         Intent intentToRepeat = new Intent(mContext, SearchResultActivity.class);
         intentToRepeat.putExtra(QUERY,queryTerm);
         intentToRepeat.putExtra(BEGIN_DATE,todayDate());
@@ -113,8 +92,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         intentToRepeat.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         //Pending intent to handle launch of Activity in intent above
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(mContext, NotificationHelper.ALARM_TYPE_RTC, intentToRepeat, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, NotificationHelper.ALARM_TYPE_RTC, intentToRepeat, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Build notification
         Notification repeatedNotification = buildLocalNotification(mContext, pendingIntent).build();
@@ -128,8 +106,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                         .setContentIntent(pendingIntent)
                         .setSmallIcon(R.drawable.ic_openclassrooms)
-                        .setContentTitle("MyNews")
-                        .setContentText("Articles that may interest you!")
+                        .setContentTitle(NOTIFICATION_TITLE)
+                        .setContentText(NOTIFICATION_MESSAGE)
                         .setAutoCancel(true);
 
         return builder;
