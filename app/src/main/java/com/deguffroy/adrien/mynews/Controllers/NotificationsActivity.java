@@ -174,10 +174,8 @@ public class NotificationsActivity extends AppCompatActivity {
     private void toggleNotifications(boolean enableNotifications){
         if (enableNotifications){
             NotificationHelper.scheduleRepeatingRTCNotification(getBaseContext(), NOTIFICATIONS_HOUR, NOTIFICATIONS_MIN);
-            NotificationHelper.enableBootReceiver(getBaseContext());
         }else{
             NotificationHelper.cancelAlarmRTC();
-            NotificationHelper.disableBootReceiver(getBaseContext());
         }
     }
 }

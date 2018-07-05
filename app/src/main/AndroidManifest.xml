@@ -3,7 +3,6 @@
     package="com.deguffroy.adrien.mynews">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,13 +17,6 @@
         <receiver
             android:name=".Utils.Notifications.AlarmReceiver"
             android:exported="true" />
-        <receiver
-            android:name=".Utils.Notifications.AlarmBootReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
         <activity android:name=".Controllers.MainActivity">
             <intent-filter>
